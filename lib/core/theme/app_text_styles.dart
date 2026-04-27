@@ -59,6 +59,13 @@ class AppTextStyles {
     color: AppColors.dark300,
   );
 
+  static const body4 = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 10,
+    height: 1.5,
+    color: AppColors.dark300,
+  );
+
   //Weight Helper
 
   static TextStyle regular(TextStyle style) =>

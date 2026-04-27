@@ -19,15 +19,12 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _navigate() async {
-    // // Delay untuk efek splash (minimum 2 detik)
-    // await Future.delayed(const Duration(seconds: 2));
-    // if (!mounted) return;
-    //
-    // // TODO: cek token dari SharedPreferences / AuthBloc
-    // // final isLoggedIn = sl<AuthLocalDatasource>().hasToken();
-    // // context.go(isLoggedIn ? Routes.home : Routes.login);
-    //
-    // context.go(Routes.login); // sementara langsung ke login
+    // Delay untuk efek splash (minimum 2 detik)
+    await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+
+    // Navigate ke entrance page
+    context.go(Routes.entrance);
   }
 
   @override
