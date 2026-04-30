@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:majadigi/api/google_auth.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
 import 'package:majadigi/core/theme/app_text_styles.dart';
 import 'package:majadigi/core/widgets/primary_button.dart';
@@ -240,7 +241,7 @@ class _LoginPage extends State<LoginPage> {
                         ).copyWith(
                           overlayColor: MaterialStateProperty.all(Colors.transparent),
                         ),
-                        onPressed: () {},
+                        onPressed: GoogleAuth.signIn,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -272,4 +273,8 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 
+  void signIn() {
+    debugPrint("SIGNING IN BUTTON");
+    GoogleAuth.signIn();
+  }
 }

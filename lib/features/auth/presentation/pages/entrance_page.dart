@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
@@ -152,7 +154,7 @@ class _EntrancePage extends State<EntrancePage> {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    onPressed: () {},
+                    onPressed: googleLogin,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -182,4 +184,7 @@ class _EntrancePage extends State<EntrancePage> {
     );
   }
 
+  void googleLogin(){
+    debugPrint("test");
+  }
 }
