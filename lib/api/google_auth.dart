@@ -1,4 +1,7 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuth {
@@ -29,8 +32,21 @@ class GoogleAuth {
     await GoogleAuth.initializeGoogleSignIn();
     try {
       GoogleSignInAccount googleSignInAccount = await GoogleSignIn.instance.authenticate();
-      debugPrint(googleSignInAccount.authentication.idToken);
-      // Kirim ke backend ke alamat /api/auth/google
+      final tokenId = googleSignInAccount.authentication.idToken;
+
+      final url = Uri.parse('http://192.168.110.83:5001/api/auth/google-login');
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'tokenId': tokenId}),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Backend Success: ${response.body}");
+      } else {
+        debugPrint("Backend Error (${response.statusCode}): ${response.body}");
+      }
+      // Kirim ke backend ke alamat /api/auth/login-google
     } catch (e) {
       debugPrint("GOOGLE AUTH FAILED");
       debugPrint(e.toString());
