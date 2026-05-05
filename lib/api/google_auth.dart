@@ -12,7 +12,7 @@ class GoogleAuth {
 	
   static Future<void> initializeGoogleSignIn() async {
     try {
-      await _googleSignIn.initialize(clientId: _clientId, serverClientId: _serverClientId);
+      await _googleSignIn.initialize(serverClientId: _serverClientId);
       _initialized = true;
     } catch (e) {
       debugPrint("Failed initiating google login");
@@ -34,11 +34,11 @@ class GoogleAuth {
       GoogleSignInAccount googleSignInAccount = await GoogleSignIn.instance.authenticate();
       final tokenId = googleSignInAccount.authentication.idToken;
 
-      final url = Uri.parse('http://192.168.110.83:5001/api/auth/google-login');
+      final url = Uri.parse('http://192.168.110.85:5001/api/auth/login-google');
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'tokenId': tokenId}),
+        body: jsonEncode({'token_id': tokenId}),
       );
 
       if (response.statusCode == 200) {
@@ -46,6 +46,7 @@ class GoogleAuth {
       } else {
         debugPrint("Backend Error (${response.statusCode}): ${response.body}");
       }
+      _googleSignIn.disconnect();
       // Kirim ke backend ke alamat /api/auth/login-google
     } catch (e) {
       debugPrint("GOOGLE AUTH FAILED");
