@@ -93,7 +93,7 @@ class _EntrancePage extends State<EntrancePage> {
                   label: 'Masuk',
                   variant: ButtonVariant.primary,
                   onPressed: () {
-                    context.go(Routes.login);
+                    context.push(Routes.login);
                   },
                 ),
 
@@ -119,11 +119,16 @@ class _EntrancePage extends State<EntrancePage> {
 
                     SizedBox(width: 4),
 
-                    Text(
-                      'Daftar Sekarang',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.bold(AppTextStyles.body2)
-                          .copyWith(color: AppColors.dark300),
+                    GestureDetector(
+                      onTap: () {
+                        context.push(Routes.register);
+                      },
+                      child: Text(
+                        'Daftar Sekarang',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.bold(AppTextStyles.body2)
+                            .copyWith(color: AppColors.dark300),
+                      ),
                     ),
                   ],
                 ),

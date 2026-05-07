@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:majadigi/core/router/app_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
 import 'package:majadigi/core/theme/app_text_styles.dart';
 import 'package:majadigi/core/widgets/primary_button.dart';
@@ -36,6 +38,7 @@ class _LoginPage extends State<LoginPage> {
                   height: 328,
                   child: Stack(
                     children: [
+
                       Positioned.fill(
                         child: Container(
                           decoration: BoxDecoration(
@@ -81,7 +84,21 @@ class _LoginPage extends State<LoginPage> {
                             ),
                           ),
                         ),
-                      )
+                      ),
+
+                      Positioned(
+                        top: 0,
+                        left: 12,
+                        child: SafeArea(
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_back, color: Colors.white),
+                            onPressed: () {
+                              context.pop();
+                            },
+                          ),
+                        ),
+                      ),
+
                     ],
                   ),
                 ),
@@ -125,7 +142,6 @@ class _LoginPage extends State<LoginPage> {
 
                     SizedBox(height: 16),
 
-                    // 🔹 PASSWORD
                     TextField(
                       obscureText: _obscurePassword,
                       style: AppTextStyles.medium(AppTextStyles.body1)
@@ -205,11 +221,16 @@ class _LoginPage extends State<LoginPage> {
 
                         SizedBox(width: 4),
 
-                        Text(
-                          'Daftar Sekarang',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.bold(AppTextStyles.body2)
-                              .copyWith(color: AppColors.dark300),
+                        GestureDetector(
+                          onTap: () {
+                            context.push(Routes.register);
+                          },
+                          child: Text(
+                            'Daftar Sekarang',
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.bold(AppTextStyles.body2)
+                                .copyWith(color: AppColors.dark300),
+                          ),
                         ),
                       ],
                     ),
