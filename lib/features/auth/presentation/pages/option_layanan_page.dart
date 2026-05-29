@@ -19,7 +19,7 @@ class _OptionLayananPage extends State<OptionLayananPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -113,7 +113,6 @@ class _OptionLayananPage extends State<OptionLayananPage> {
                       ),
                     ),
 
-                    FooterWidget(),
                   ],
                 ),
               ),
@@ -121,6 +120,7 @@ class _OptionLayananPage extends State<OptionLayananPage> {
           );
         },
       ),
+      bottomNavigationBar: const FooterWidget(),
     );
 
   }

@@ -4,10 +4,26 @@ class AuthHeaderWidget extends StatelessWidget {
   final String imagePath;
   final VoidCallback onBackPressed;
 
+  /// OPTIONAL TITLE
+  final String? title;
+
+  /// SHOW TITLE OR NOT
+  final bool showTitle;
+
+  /// SHOW BACK BUTTON OR NOT
+  final bool showBackButton;
+
   const AuthHeaderWidget({
     Key? key,
     required this.imagePath,
     required this.onBackPressed,
+    this.title,
+
+    /// DEFAULT FALSE
+    this.showTitle = false,
+
+    /// DEFAULT TRUE
+    this.showBackButton = true,
   }) : super(key: key);
 
   @override
@@ -21,6 +37,8 @@ class AuthHeaderWidget extends StatelessWidget {
         ),
         child: Stack(
           children: [
+
+            /// BACKGROUND
             Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -38,23 +56,57 @@ class AuthHeaderWidget extends StatelessWidget {
                 width: double.infinity,
               ),
             ),
-            Positioned(
-              top: 24,
-              left: 12,
-              child: SafeArea(
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
+
+            /// BACK BUTTON
+            if (showBackButton)
+              Positioned(
+                top: 24,
+                left: 12,
+                child: SafeArea(
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                    onPressed: onBackPressed,
                   ),
-                  onPressed: onBackPressed,
                 ),
               ),
-            ),
+
+            /// OPTIONAL TITLE
+            if (showTitle && title != null)
+              Positioned.fill(
+                child: SafeArea(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                      ),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxWidth: 260,
+                        ),
+                        child: Text(
+                          title!,
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            height: 1.2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 }
-

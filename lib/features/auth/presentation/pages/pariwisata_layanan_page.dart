@@ -22,7 +22,7 @@ class _PariwisataLayananPage extends State<PariwisataLayananPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -47,29 +47,29 @@ class _PariwisataLayananPage extends State<PariwisataLayananPage> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 72),
+                            const SizedBox(height: 48),
 
                             ServiceCardWidget(
                               variant: ServiceCardVariant.dark,
                               imagePath: 'lib/assets/images/pariwisata_icon.png',
-                              title: 'Pariwisata',
-                              description: 'Destinasi wisata, paket tour, dan panduan wisata terlengkap',
+                              title: 'Pariwisata & Kebudayaan',
+                              description: 'Eksplor ragam destinasi wisata, seni, dan budaya khas Jatim',
                               onTap: () {
-                                print('Pariwisata card tapped');
+                                print('Sosial card tapped');
                               },
                             ),
 
                             const SizedBox(height: 12),
 
                             SizedBox(
-                              height: 380,
+                              height: 348,
                               child: Column(
                                 children: [
                                   OptionCardWidget(
                                     imagePath: 'lib/assets/images/pariwisata_icon.png',
-                                    category: 'Pariwisata',
-                                    title: 'Destinasi Wisata',
-                                    description: 'Informasi lengkap tentang destinasi wisata di Jawa Timur',
+                                    category: 'Sosial',
+                                    title: 'Bantuan Sosial',
+                                    description: 'Program bantuan sosial untuk keluarga kurang mampu',
                                     onTap: () {
                                       print('Option card tapped');
                                     },
@@ -78,10 +78,10 @@ class _PariwisataLayananPage extends State<PariwisataLayananPage> {
                                     },
                                   ),
                                   OptionCardWidget(
-                                    imagePath: 'lib/assets/images/pariwisata_icon.png',
-                                    category: 'Pariwisata',
-                                    title: 'Paket Tour',
-                                    description: 'Berbagai paket tour menarik dengan harga terjangkau',
+                                    imagePath: 'lib/assets/images/social_icon.png',
+                                    category: 'Sosial',
+                                    title: 'Pemberdayaan Masyarakat',
+                                    description: 'Program pemberdayaan dan pelatihan keterampilan',
                                     onTap: () {
                                       print('Option card tapped');
                                     },
@@ -90,10 +90,10 @@ class _PariwisataLayananPage extends State<PariwisataLayananPage> {
                                     },
                                   ),
                                   OptionCardWidget(
-                                    imagePath: 'lib/assets/images/pariwisata_icon.png',
-                                    category: 'Pariwisata',
-                                    title: 'Panduan Wisata',
-                                    description: 'Dapatkan panduan wisata profesional untuk pengalaman terbaik',
+                                    imagePath: 'lib/assets/images/social_icon.png',
+                                    category: 'Sosial',
+                                    title: 'Perlindungan Anak',
+                                    description: 'Layanan perlindungan dan pemeliharaan anak',
                                     onTap: () {
                                       print('Option card tapped');
                                     },
@@ -107,7 +107,16 @@ class _PariwisataLayananPage extends State<PariwisataLayananPage> {
                             PrimaryButton(
                               label: 'Simpan',
                               onPressed: () {
-                                context.push(Routes.sosialLayanan);
+                                context.push(Routes.listLayanan);
+                              },
+                            ),
+
+                            SizedBox(height: 8),
+                            PrimaryButton(
+                              label: 'Pilih Layanan Lainnya',
+                              variant: ButtonVariant.secondary,
+                              onPressed: () {
+                                context.push(Routes.entranceLayanan);
                               },
                             )
                           ],
@@ -115,7 +124,6 @@ class _PariwisataLayananPage extends State<PariwisataLayananPage> {
                       ),
                     ),
 
-                    FooterWidget(),
                   ],
                 ),
               ),
@@ -123,7 +131,7 @@ class _PariwisataLayananPage extends State<PariwisataLayananPage> {
           );
         },
       ),
+      bottomNavigationBar: const FooterWidget(),
     );
   }
 }
-

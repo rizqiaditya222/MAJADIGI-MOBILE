@@ -11,6 +11,11 @@ class PrimaryButton extends StatelessWidget {
   final Widget? prefixIcon;
   final bool isLoading;
 
+  /// NEW
+  final Color? backgroundColor;
+  final Color? textColor;
+  final double borderRadius;
+
   const PrimaryButton({
     Key? key,
     required this.label,
@@ -18,51 +23,74 @@ class PrimaryButton extends StatelessWidget {
     this.variant = ButtonVariant.primary,
     this.prefixIcon,
     this.isLoading = false,
+
+    /// NEW
+    this.backgroundColor,
+    this.textColor,
+    this.borderRadius = 12,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isSecondary = variant == ButtonVariant.secondary;
 
+    final Color buttonColor =
+        backgroundColor ??
+            (isSecondary
+                ? AppColors.blue150
+                : AppColors.blue300);
+
+    final Color buttonTextColor =
+        textColor ??
+            (isSecondary
+                ? AppColors.blue300
+                : AppColors.white);
+
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
         style: FilledButton.styleFrom(
-          backgroundColor: isSecondary ? AppColors.blue150 : AppColors.blue300,
+          backgroundColor: buttonColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius:
+            BorderRadius.circular(borderRadius),
           ),
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+          ),
         ),
         onPressed: isLoading ? null : onPressed,
         child: isLoading
             ? SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation(
-                    isSecondary ? AppColors.blue300 : AppColors.white,
-                  ),
-                ),
-              )
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            valueColor:
+            AlwaysStoppedAnimation(
+              buttonTextColor,
+            ),
+          ),
+        )
             : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (prefixIcon != null) ...[
-                    prefixIcon!,
-                    SizedBox(width: 8),
-                  ],
-                  Text(
-                    label,
-                    style: AppTextStyles.semiBold(AppTextStyles.body1).copyWith(
-                      color: isSecondary ? AppColors.blue300 : AppColors.white,
-                    ),
-                  ),
-                ],
+          mainAxisAlignment:
+          MainAxisAlignment.center,
+          children: [
+            if (prefixIcon != null) ...[
+              prefixIcon!,
+              const SizedBox(width: 8),
+            ],
+            Text(
+              label,
+              style: AppTextStyles.semiBold(
+                AppTextStyles.body1,
+              ).copyWith(
+                color: buttonTextColor,
               ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-

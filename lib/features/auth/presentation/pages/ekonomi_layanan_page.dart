@@ -21,7 +21,7 @@ class _EkonomiLayananPage extends State<EkonomiLayananPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -48,7 +48,7 @@ class _EkonomiLayananPage extends State<EkonomiLayananPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
 
-                              const SizedBox(height: 72),
+                              const SizedBox(height: 48),
 
                               ServiceCardWidget(
                                 variant: ServiceCardVariant.dark,
@@ -63,7 +63,7 @@ class _EkonomiLayananPage extends State<EkonomiLayananPage> {
                               const SizedBox(height: 12),
 
                               SizedBox(
-                                height: 360,
+                                height: 348,
                                 child: Column(
                                   children: [
                                     OptionCardWidget(
@@ -108,7 +108,15 @@ class _EkonomiLayananPage extends State<EkonomiLayananPage> {
                               PrimaryButton(
                                   label: 'Simpan',
                                   onPressed: (){
-                                    context.push(Routes.kesehatanLayanan);
+                                    context.push(Routes.listLayanan);
+                                  }),
+
+                              SizedBox(height: 8),
+                              PrimaryButton(
+                                  label: 'Pilih Layanan Lainnya',
+                                  variant: ButtonVariant.secondary,
+                                  onPressed: (){
+                                    context.push(Routes.entranceLayanan);
                                   })
                             ],
                           ),
@@ -116,7 +124,6 @@ class _EkonomiLayananPage extends State<EkonomiLayananPage> {
                       ),
                     ),
 
-                    FooterWidget(),
                   ],
                 ),
               ),
@@ -124,6 +131,7 @@ class _EkonomiLayananPage extends State<EkonomiLayananPage> {
           );
         },
       ),
+      bottomNavigationBar: const FooterWidget(),
     );
 
   }

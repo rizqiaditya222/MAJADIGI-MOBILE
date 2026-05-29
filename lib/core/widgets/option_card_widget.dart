@@ -52,7 +52,7 @@ class _OptionCardWidgetState extends State<OptionCardWidget> {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: SizedBox(
                 width: double.infinity,
                 child: Row(

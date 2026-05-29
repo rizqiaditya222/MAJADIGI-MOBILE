@@ -21,7 +21,7 @@ class _KesehatanLayananPage extends State<KesehatanLayananPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -46,7 +46,7 @@ class _KesehatanLayananPage extends State<KesehatanLayananPage> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 72),
+                            const SizedBox(height: 48),
 
                             ServiceCardWidget(
                               variant: ServiceCardVariant.dark,
@@ -61,7 +61,7 @@ class _KesehatanLayananPage extends State<KesehatanLayananPage> {
                             const SizedBox(height: 12),
 
                             SizedBox(
-                              height: 380,
+                              height: 348,
                               child: Column(
                                 children: [
                                   OptionCardWidget(
@@ -106,7 +106,16 @@ class _KesehatanLayananPage extends State<KesehatanLayananPage> {
                             PrimaryButton(
                               label: 'Simpan',
                               onPressed: () {
-                                context.push(Routes.pariwisataLayanan);
+                                context.push(Routes.listLayanan);
+                              },
+                            ),
+
+                            SizedBox(height: 8),
+                            PrimaryButton(
+                              label: 'Pilih Layanan Lainnya',
+                              variant: ButtonVariant.secondary,
+                              onPressed: () {
+                                context.push(Routes.entranceLayanan);
                               },
                             )
                           ],
@@ -114,7 +123,6 @@ class _KesehatanLayananPage extends State<KesehatanLayananPage> {
                       ),
                     ),
 
-                    FooterWidget(),
                   ],
                 ),
               ),
@@ -122,6 +130,7 @@ class _KesehatanLayananPage extends State<KesehatanLayananPage> {
           );
         },
       ),
+      bottomNavigationBar: const FooterWidget(),
     );
   }
 }

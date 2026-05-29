@@ -8,6 +8,7 @@ import 'package:majadigi/core/widgets/primary_button.dart';
 import 'package:majadigi/core/widgets/footer_widget.dart';
 import 'package:majadigi/core/widgets/labeled_text_field.dart';
 import 'package:majadigi/core/widgets/auth_header_widget.dart';
+import 'package:majadigi/core/widgets/service_card_widget.dart';
 
 class EntranceLayananPage extends StatefulWidget {
   const EntranceLayananPage({super.key});
@@ -21,7 +22,7 @@ class _EntranceLayananPage extends State<EntranceLayananPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -67,19 +68,54 @@ class _EntranceLayananPage extends State<EntranceLayananPage> {
 
                               const SizedBox(height: 24),
 
-                              PrimaryButton(
-                                label: 'Tambah layanan',
-                                onPressed: () {
-                                  context.push(Routes.optionLayanan);
+                              ServiceCardWidget(
+                                imagePath: 'lib/assets/images/ekonomi_icon.png',
+                                title: 'Ekonomi',
+                                description: 'Layanan pengembangan usaha, peluang bisnis, dan investasi',
+                                onTap: () {
+                                  context.push(Routes.ekonomiLayanan);
                                 },
                               ),
+
+                              const SizedBox(height: 4),
+
+                              ServiceCardWidget(
+                                imagePath: 'lib/assets/images/kesehatan_icon.png',
+                                title: 'Kesehatan',
+                                description: 'Berisi info layanan, fasilitas, dan program kesehatan di Jatim',
+                                onTap: () {
+                                  context.push(Routes.kesehatanLayanan);
+                                },
+                              ),
+
+                              const SizedBox(height: 4),
+
+                              ServiceCardWidget(
+                                imagePath: 'lib/assets/images/pariwisata_icon.png',
+                                title: 'Pariwisata & Kebudayaan',
+                                description: 'Eksplor ragam destinasi wisata, seni, dan budaya khas Jatim',
+                                onTap: () {
+                                  context.push(Routes.pariwisataLayanan);
+                                },
+                              ),
+
+                              const SizedBox(height: 4),
+
+                              ServiceCardWidget(
+                                imagePath: 'lib/assets/images/social_icon.png',
+                                title: 'Sosial',
+                                description: 'Akses bantuan dan layanan sosial untuk kesejahteraan warga Jatim',
+                                onTap: () {
+                                  context.push(Routes.sosialLayanan);
+                                },
+                              ),
+
                             ],
                           ),
                         ),
                       ),
                     ),
 
-                    FooterWidget(),
                   ],
                 ),
               ),
@@ -87,6 +123,7 @@ class _EntranceLayananPage extends State<EntranceLayananPage> {
           );
         },
       ),
+      bottomNavigationBar: const FooterWidget(),
     );
 
   }

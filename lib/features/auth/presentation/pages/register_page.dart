@@ -8,6 +8,7 @@ import 'package:majadigi/core/theme/app_text_styles.dart';
 import 'package:majadigi/core/widgets/auth_header_widget.dart';
 import 'package:majadigi/core/widgets/footer_widget.dart';
 import 'package:majadigi/core/widgets/labeled_text_field.dart';
+import 'package:majadigi/core/widgets/labeled_widget.dart';
 import 'package:majadigi/core/widgets/primary_button.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -77,25 +78,10 @@ class _RegisterPage extends State<RegisterPage> {
     );
   }
 
-  Widget buildLabel(String label) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: AppTextStyles.semiBold(AppTextStyles.body1).copyWith(
-            color: AppColors.black,
-          ),
-        ),
-        const SizedBox(height: 4),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           // STICKY HEADER
@@ -151,7 +137,7 @@ class _RegisterPage extends State<RegisterPage> {
 
                         const SizedBox(height: 16),
 
-                        buildLabel("Password"),
+                        LabelWidget(label: "Password"),
 
                         TextField(
                           obscureText: _obscurePassword,
@@ -177,7 +163,7 @@ class _RegisterPage extends State<RegisterPage> {
 
                         const SizedBox(height: 16),
 
-                        buildLabel("Konfirmasi Password"),
+                        LabelWidget(label: "Konfirmasi Password"),
 
                         TextField(
                           obscureText: _obscureConfirmPassword,
@@ -229,7 +215,7 @@ class _RegisterPage extends State<RegisterPage> {
                         const SizedBox(height: 16),
 
                         // DATE PICKER
-                        buildLabel("Tanggal Lahir"),
+                          LabelWidget(label: "Tanggal Lahir"),
 
                         TextField(
                           controller: dateController,
@@ -255,7 +241,6 @@ class _RegisterPage extends State<RegisterPage> {
                         const SizedBox(height: 16),
 
                         // DROPDOWN GENDER
-                        buildLabel("Jenis Kelamin"),
 
                         DropdownButtonFormField<String>(
                           value: selectedGender,
@@ -395,14 +380,13 @@ class _RegisterPage extends State<RegisterPage> {
                       ],
                     ),
                   ),
-
-                  FooterWidget(),
                 ],
               ),
             ),
           ),
         ],
       ),
+      bottomNavigationBar: const FooterWidget(),
     );
   }
 }

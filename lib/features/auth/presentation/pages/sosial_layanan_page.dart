@@ -22,7 +22,7 @@ class _SosialLayananPage extends State<SosialLayananPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -47,7 +47,7 @@ class _SosialLayananPage extends State<SosialLayananPage> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 72),
+                            const SizedBox(height: 48),
 
                             ServiceCardWidget(
                               variant: ServiceCardVariant.dark,
@@ -62,7 +62,7 @@ class _SosialLayananPage extends State<SosialLayananPage> {
                             const SizedBox(height: 12),
 
                             SizedBox(
-                              height: 380,
+                              height: 348,
                               child: Column(
                                 children: [
                                   OptionCardWidget(
@@ -109,13 +109,21 @@ class _SosialLayananPage extends State<SosialLayananPage> {
                               onPressed: () {
                                 context.push(Routes.listLayanan);
                               },
+                            ),
+
+                            SizedBox(height: 8),
+                            PrimaryButton(
+                              label: 'Pilih Layanan Lainnya',
+                              variant: ButtonVariant.secondary,
+                              onPressed: () {
+                                context.push(Routes.entranceLayanan);
+                              },
                             )
                           ],
                         ),
                       ),
                     ),
 
-                    FooterWidget(),
                   ],
                 ),
               ),
@@ -123,7 +131,7 @@ class _SosialLayananPage extends State<SosialLayananPage> {
           );
         },
       ),
+      bottomNavigationBar: const FooterWidget(),
     );
   }
 }
-
