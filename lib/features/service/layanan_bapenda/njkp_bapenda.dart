@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/core/router/app_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
@@ -6,150 +7,67 @@ import 'package:majadigi/core/theme/app_text_styles.dart';
 import 'package:majadigi/core/widgets/auth_header_widget.dart';
 import 'package:majadigi/core/widgets/primary_button.dart';
 
-class NjkpBapenda extends StatefulWidget {
+import 'package:majadigi/injection_container.dart';
+import 'package:majadigi/features/bapenda/domain/entities/njkb_entity.dart';
+import 'package:majadigi/features/bapenda/presentation/bloc/njkb_bloc.dart';
+
+class NjkpBapenda extends StatelessWidget {
   const NjkpBapenda({super.key});
 
   @override
-  State<NjkpBapenda> createState() =>
-      _NjkpBapendaState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      // Langsung panggil event FetchJenis saat halaman pertama dibuka
+      create: (context) => s1<NjkbBloc>()..add(FetchJenis()),
+      child: const NjkpBapendaView(),
+    );
+  }
 }
 
-class _NjkpBapendaState
-    extends State<NjkpBapenda> {
+class NjkpBapendaView extends StatefulWidget {
+  const NjkpBapendaView({super.key});
+
+  @override
+  State<NjkpBapendaView> createState() => _NjkpBapendaViewState();
+}
+
+class _NjkpBapendaViewState extends State<NjkpBapendaView> {
   bool isRobotChecked = false;
 
-  String? selectedJenis;
-  String? selectedModel;
-  String? selectedMerk;
-  String? selectedTipe;
-  String? selectedTahun;
-
-  final jenisList = [
-    'Mobil',
-    'Motor',
-    'Bus',
-    'Truk',
-  ];
-
-  final modelList = [
-    'SUV',
-    'Sedan',
-    'MPV',
-    'Hatchback',
-  ];
-
-  final merkList = [
-    'Toyota',
-    'Honda',
-    'Suzuki',
-    'Daihatsu',
-  ];
-
-  final tipeList = [
-    'Automatic',
-    'Manual',
-  ];
-
-  final tahunList = [
-    '2025',
-    '2024',
-    '2023',
-    '2022',
-    '2021',
-  ];
-
+  // Modifikasi Dropdown builder agar menerima NjkbDropdownEntity
   Widget buildDropdown({
     required String label,
     required String hint,
-    required String? value,
-    required List<String> items,
-    required Function(String?) onChanged,
+    required NjkbDropdownEntity? value,
+    required List<NjkbDropdownEntity> items,
+    required Function(NjkbDropdownEntity?) onChanged,
   }) {
     return Column(
-      crossAxisAlignment:
-      CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: AppTextStyles.semiBold(
-            AppTextStyles.body1,
-          ).copyWith(
-            color: AppColors.black,
-          ),
-        ),
-
+        Text(label, style: AppTextStyles.semiBold(AppTextStyles.body1).copyWith(color: AppColors.black)),
         const SizedBox(height: 8),
-
-        DropdownButtonFormField<String>(
+        DropdownButtonFormField<NjkbDropdownEntity>(
           value: value,
-
-          style: AppTextStyles.medium(
-            AppTextStyles.body1,
-          ).copyWith(
-            color: AppColors.black,
-          ),
-
+          style: AppTextStyles.medium(AppTextStyles.body1).copyWith(color: AppColors.black),
           dropdownColor: Colors.white,
-
-          icon: Icon(
-            Icons.keyboard_arrow_down_rounded,
-            color: AppColors.dark300,
-            size: 24,
-          ),
-
-          borderRadius:
-          BorderRadius.circular(16),
-
+          icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.dark300, size: 24),
+          borderRadius: BorderRadius.circular(16),
           decoration: InputDecoration(
             hintText: hint,
-
-            hintStyle: AppTextStyles.medium(
-              AppTextStyles.body1,
-            ).copyWith(
-              color: AppColors.dark300,
-            ),
-
+            hintStyle: AppTextStyles.medium(AppTextStyles.body1).copyWith(color: AppColors.dark300),
             filled: true,
             fillColor: Colors.white,
-
-            contentPadding:
-            const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
-
-            enabledBorder:
-            OutlineInputBorder(
-              borderRadius:
-              BorderRadius.circular(16),
-              borderSide: BorderSide(
-                color: AppColors.dark200,
-              ),
-            ),
-
-            focusedBorder:
-            OutlineInputBorder(
-              borderRadius:
-              BorderRadius.circular(16),
-              borderSide: BorderSide(
-                color: AppColors.blue300,
-                width: 1.5,
-              ),
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: AppColors.dark200)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: AppColors.blue300, width: 1.5)),
           ),
-
           items: items.map((item) {
-            return DropdownMenuItem<String>(
+            return DropdownMenuItem<NjkbDropdownEntity>(
               value: item,
-              child: Text(
-                item,
-                style: AppTextStyles.medium(
-                  AppTextStyles.body1,
-                ),
-              ),
+              child: Text(item.name, style: AppTextStyles.medium(AppTextStyles.body1)),
             );
           }).toList(),
-
           onChanged: onChanged,
         ),
       ],
@@ -160,214 +78,111 @@ class _NjkpBapendaState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
-      body: Column(
-        children: [
-          AuthHeaderWidget(
-            imagePath:
-            'lib/assets/images/bapenda_background.png',
-            showTitle: true,
-            title:
-            'Info Nilai Jual Kendaraan Bermotor (NJKB)',
-            onBackPressed: () {
-              context.pop();
-            },
-          ),
-
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                children: [
-                  /// BANNER
-                  ClipRRect(
-                    borderRadius:
-                    BorderRadius.circular(
-                      20,
-                    ),
-                    child: Image.asset(
-                      'lib/assets/images/bapenda_background.png',
-                      width: double.infinity,
-                      height: 140,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  /// FORM CARD
-                  Container(
-                    width: double.infinity,
-                    padding:
-                    const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                      BorderRadius.circular(
-                        24,
+      body: BlocConsumer<NjkbBloc, NjkbState>(
+        listener: (context, state) {
+          if (state.error != null) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!, style: const TextStyle(color: Colors.white)), backgroundColor: Colors.red));
+          }
+          // Kalau sukses narik harga NJKB, langsung lempar ke halaman detail
+          if (state.resultData != null && !state.isLoading) {
+            context.push(Routes.detailNjkpBapenda, extra: state.resultData);
+          }
+        },
+        builder: (context, state) {
+          return Column(
+            children: [
+              AuthHeaderWidget(
+                imagePath: 'lib/assets/images/bapenda_background.png',
+                showTitle: true,
+                title: 'Info Nilai Jual Kendaraan Bermotor (NJKB)',
+                onBackPressed: () => context.pop(),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset('lib/assets/images/bapenda_background.png', width: double.infinity, height: 140, fit: BoxFit.cover),
                       ),
-                    ),
-                    child: Column(
-                      children: [
-                        buildDropdown(
-                          label:
-                          'Jenis Kendaraan',
-                          hint: 'Pilih',
-                          value: selectedJenis,
-                          items: jenisList,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedJenis =
-                                  value;
-                            });
-                          },
-                        ),
-
-                        const SizedBox(
-                            height: 16),
-
-                        buildDropdown(
-                          label:
-                          'Model Kendaraan',
-                          hint: 'Pilih',
-                          value: selectedModel,
-                          items: modelList,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedModel =
-                                  value;
-                            });
-                          },
-                        ),
-
-                        const SizedBox(
-                            height: 16),
-
-                        buildDropdown(
-                          label:
-                          'Merk Kendaraan',
-                          hint: 'Pilih',
-                          value: selectedMerk,
-                          items: merkList,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedMerk =
-                                  value;
-                            });
-                          },
-                        ),
-
-                        const SizedBox(
-                            height: 16),
-
-                        buildDropdown(
-                          label:
-                          'Tipe Kendaraan',
-                          hint: 'Pilih',
-                          value: selectedTipe,
-                          items: tipeList,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedTipe =
-                                  value;
-                            });
-                          },
-                        ),
-
-                        const SizedBox(
-                            height: 16),
-
-                        buildDropdown(
-                          label:
-                          'Tahun Kendaraan',
-                          hint: 'Pilih',
-                          value: selectedTahun,
-                          items: tahunList,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedTahun =
-                                  value;
-                            });
-                          },
-                        ),
-
-                        const SizedBox(
-                            height: 20),
-
-                        /// CAPTCHA
-                        Container(
-                          height: 62,
-                          padding:
-                          const EdgeInsets
-                              .symmetric(
-                            horizontal: 16,
-                          ),
-                          decoration:
-                          BoxDecoration(
-                            border: Border.all(
-                              color:
-                              AppColors.dark200,
+                      const SizedBox(height: 20),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
+                        child: Column(
+                          children: [
+                            // 5 Level Dropdown Berantai!
+                            buildDropdown(
+                              label: 'Jenis Kendaraan', hint: 'Pilih Jenis',
+                              value: state.selectedJenis, items: state.listJenis,
+                              onChanged: (val) { if (val != null) context.read<NjkbBloc>().add(ChangeJenis(val)); },
                             ),
-                            borderRadius:
-                            BorderRadius
-                                .circular(
-                              12,
+                            const SizedBox(height: 16),
+                            buildDropdown(
+                              label: 'Model Kendaraan', hint: state.selectedJenis == null ? 'Pilih Jenis Dulu' : 'Pilih Model',
+                              value: state.selectedModel, items: state.listModel,
+                              onChanged: (val) { if (val != null) context.read<NjkbBloc>().add(ChangeModel(val)); },
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              Checkbox(
-                                value:
-                                isRobotChecked,
-                                onChanged:
-                                    (value) {
-                                  setState(() {
-                                    isRobotChecked =
-                                        value ??
-                                            false;
-                                  });
+                            const SizedBox(height: 16),
+                            buildDropdown(
+                              label: 'Merk Kendaraan', hint: state.selectedModel == null ? 'Pilih Model Dulu' : 'Pilih Merk',
+                              value: state.selectedMerk, items: state.listMerk,
+                              onChanged: (val) { if (val != null) context.read<NjkbBloc>().add(ChangeMerk(val)); },
+                            ),
+                            const SizedBox(height: 16),
+                            buildDropdown(
+                              label: 'Tipe Kendaraan', hint: state.selectedMerk == null ? 'Pilih Merk Dulu' : 'Pilih Tipe',
+                              value: state.selectedTipe, items: state.listTipe,
+                              onChanged: (val) { if (val != null) context.read<NjkbBloc>().add(ChangeTipe(val)); },
+                            ),
+                            const SizedBox(height: 16),
+                            buildDropdown(
+                              label: 'Tahun Kendaraan', hint: state.selectedTipe == null ? 'Pilih Tipe Dulu' : 'Pilih Tahun',
+                              value: state.selectedTahun, items: state.listTahun,
+                              onChanged: (val) { if (val != null) context.read<NjkbBloc>().add(ChangeTahun(val)); },
+                            ),
+                            const SizedBox(height: 20),
+                            
+                            // Checkbox Robot
+                            Container(
+                              height: 62, padding: const EdgeInsets.symmetric(horizontal: 16),
+                              decoration: BoxDecoration(border: Border.all(color: AppColors.dark200), borderRadius: BorderRadius.circular(12)),
+                              child: Row(
+                                children: [
+                                  Checkbox(value: isRobotChecked, onChanged: (v) => setState(() => isRobotChecked = v ?? false)),
+                                  const SizedBox(width: 8),
+                                  Expanded(child: Text('Saya bukan robot', style: AppTextStyles.medium(AppTextStyles.body1))),
+                                  Image.asset('lib/assets/images/bapenda_background.png', width: 28),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Submit Button
+                            if (state.isLoading)
+                              const Center(child: CircularProgressIndicator())
+                            else
+                              PrimaryButton(
+                                label: 'Submit',
+                                onPressed: () {
+                                  // Cegah submit kalau tahun belum dipilih atau robot belum dicentang
+                                  if (state.selectedTahun != null && isRobotChecked) {
+                                    context.read<NjkbBloc>().add(SubmitNjkb());
+                                  }
                                 },
                               ),
-
-                              const SizedBox(
-                                  width: 8),
-
-                              Expanded(
-                                child: Text(
-                                  'Saya bukan robot',
-                                  style:
-                                  AppTextStyles
-                                      .medium(
-                                    AppTextStyles
-                                        .body1,
-                                  ),
-                                ),
-                              ),
-
-                              Image.asset(
-                                'lib/assets/images/bapenda_background.png',
-                                width: 28,
-                              ),
-                            ],
-                          ),
+                          ],
                         ),
-
-                        const SizedBox(
-                            height: 20),
-
-                        PrimaryButton(
-                          label: 'Submit',
-                          onPressed: () {
-                            context.push(Routes.detailNjkpBapenda);
-                          },
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

@@ -71,6 +71,8 @@ import '../../features/service/layanan_islamic_center/pembayaran_islamic_center.
 import '../../features/service/layanan_islamic_center/islamic_center_finish.dart';
 import '../../features/service/layanan_transjatim/rute_transjatim.dart';
 import '../../features/service/layanan_transjatim/tiket_transjatim.dart';
+import 'package:majadigi/features/bapenda/domain/entities/info_pajak_entity.dart';
+import 'package:majadigi/features/bapenda/domain/entities/njkb_entity.dart';
 
 class Routes {
   Routes._();
@@ -1209,40 +1211,39 @@ final appRouter = GoRouter(
       builder: (context, state) => const NjkpBapenda(),
     ),
 
-    GoRoute(
-      path: Routes.detailNjkpBapenda,
-      name: 'detail njkp bapenda',
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          key: state.pageKey,
-          child: DetailNjkpBapenda(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        );
-      },
-      builder: (context, state) => const DetailNjkpBapenda(),
+      GoRoute(
+        path: Routes.detailNjkpBapenda,
+        name: 'detail njkp bapenda',
+        pageBuilder: (context, state) {
+          final dataNjkb = state.extra as NjkbResultEntity;
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: DetailNjkpBapenda(data: dataNjkb),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+          );
+       },
     ),
 
-    GoRoute(
-      path: Routes.detailPajakBapenda,
-      name: 'detail pajak bapenda',
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          key: state.pageKey,
-          child: DetailPajakBapenda(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
-          },
-        );
-      },
-      builder: (context, state) => const DetailPajakBapenda(),
+      GoRoute(
+        path: Routes.detailPajakBapenda,
+        name: 'detail pajak bapenda',
+        pageBuilder: (context, state) {
+          final dataPajak = state.extra as InfoPajakEntity;
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: DetailPajakBapenda(data: dataPajak), 
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          );
+        },
     ),
 
     GoRoute(
@@ -1283,20 +1284,19 @@ final appRouter = GoRouter(
 
     GoRoute(
       path: Routes.detailHargaBahanPokok,
-      name: 'detail layanan bahan pokok',
+      name: 'detail harga bahan pokok',
       pageBuilder: (context, state) {
+      
+        final commodityId = state.extra as int? ?? 1; // Default ke 1 jika null
+
         return CustomTransitionPage(
           key: state.pageKey,
-          child: DetailBahanPokokPage(),
+          child: DetailBahanPokokPage(commodityId: commodityId), // Kirim ID ke halaman Detail
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
+            return FadeTransition(opacity: animation, child: child);
           },
         );
       },
-      builder: (context, state) => const DetailBahanPokokPage(),
     ),
 
     GoRoute(
