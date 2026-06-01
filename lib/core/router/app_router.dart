@@ -7,6 +7,7 @@ import 'package:majadigi/features/auth/presentation/pages/new_password_page.dart
 import 'package:majadigi/features/auth/presentation/pages/option_layanan_page.dart';
 import 'package:majadigi/features/auth/presentation/pages/otp_password_page.dart';
 import 'package:majadigi/features/auth/presentation/pages/register_page.dart';
+import 'package:majadigi/features/auth/presentation/pages/registration_otp_page.dart';
 import 'package:majadigi/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:majadigi/features/auth/presentation/pages/splash_page.dart';
 import 'package:majadigi/features/auth/presentation/pages/ekonomi_layanan_page.dart';
@@ -23,23 +24,35 @@ import 'package:majadigi/features/home/presentation/pages/layanan/layanan_cepat_
 import 'package:majadigi/features/home/presentation/pages/layanan/layanan_cepat_page.dart';
 import 'package:majadigi/features/home/presentation/pages/layanan/layanan_cepat_wisata.dart';
 import 'package:majadigi/features/home/presentation/pages/notification_page.dart';
+import 'package:majadigi/features/home/presentation/pages/profile/data_diri_page.dart';
+import 'package:majadigi/features/home/presentation/pages/profile/ubah_data_page.dart';
+import 'package:majadigi/features/home/presentation/pages/profile/ubah_kata_sandi_page.dart';
 import 'package:majadigi/features/navigation/presentation/main_navigation_page.dart';
 import 'package:majadigi/features/service/layanan_bapenda/bapenda_page.dart';
 import 'package:majadigi/features/service/layanan_bapenda/detail_njkp_bapenda.dart';
 import 'package:majadigi/features/service/layanan_bapenda/detail_pajak_pkb.dart';
 import 'package:majadigi/features/service/layanan_bapenda/info_pajak_bapenda.dart';
 import 'package:majadigi/features/service/layanan_bapenda/njkp_bapenda.dart';
+import 'package:majadigi/features/service/layanan_dasa_husada/antrian_pasien.dart';
 import 'package:majadigi/features/service/layanan_dasa_husada/dasa_husada_page.dart';
+import 'package:majadigi/features/service/layanan_dasa_husada/jadwal_operasi.dart';
+import 'package:majadigi/features/service/layanan_dasa_husada/ketersediaan_kamar.dart';
 import 'package:majadigi/features/service/layanan_destinasi_wisata/destinasi_wisata_page.dart';
 import 'package:majadigi/features/service/layanan_destinasi_wisata/detail_destinasi_wisata_page.dart';
 import 'package:majadigi/features/service/layanan_destinasi_wisata/list_destinasi_wisata.dart';
+import 'package:majadigi/features/service/layanan_harga_bahan/detail_bahan_pokok.dart';
+import 'package:majadigi/features/service/layanan_harga_bahan/harga_bahan_page.dart';
+import 'package:majadigi/features/service/layanan_karsa_husada/karsa_husada_page.dart';
 import 'package:majadigi/features/service/layanan_kliniik_hoaks/detail_laporan_hoaks.dart';
 import 'package:majadigi/features/service/layanan_kliniik_hoaks/klinik_hoaks_page.dart';
 import 'package:majadigi/features/service/layanan_kliniik_hoaks/lacak_laporan_hoaks.dart';
 import 'package:majadigi/features/service/layanan_kliniik_hoaks/laporan_hoaks.dart';
 import 'package:majadigi/features/service/layanan_kliniik_hoaks/laporan_hoaks_ticket.dart';
 import 'package:majadigi/features/service/layanan_kliniik_hoaks/list_laporan_hoaks.dart';
+import 'package:majadigi/features/service/layanan_nomor_darurat/nomor_darurat_page.dart';
 import 'package:majadigi/features/service/layanan_skrining_etibi/detail_hasil_skrining.dart';
+import 'package:majadigi/features/service/layanan_skrining_etibi/faskes_choice.dart';
+import 'package:majadigi/features/service/layanan_skrining_etibi/faskes_etibi_page.dart';
 // import 'package:majadigi/features/service/layanan_skrining_etibi/faskes_etibi.dart';
 import 'package:majadigi/features/service/layanan_skrining_etibi/form_skrining_etibi.dart';
 import 'package:majadigi/features/service/layanan_skrining_etibi/hasil_skrining.dart';
@@ -68,6 +81,7 @@ class Routes {
   static const entrance = '/entrance';
   static const login = '/login';
   static const register = '/register';
+  static const registerOtp = '/register_otp';
 
   static const home = '/home';
   static const notification = '/notification';
@@ -106,6 +120,11 @@ class Routes {
   static const detailRuteTransjatim = '/detail_rute_transjatim';
 
   static const layananDasaHusada = '/layanan_dasa_husada';
+  static const kamarDasaHusada = '/kamar_dasa_husada';
+  static const operasiDasaHusada = '/operasi_dasa_husada';
+  static const antrianDasaHusada = '/antrian_dasa_husada';
+
+  static const layananKarsaHusada = '/layanan_karsa_husada';
 
   static const layananKlinikHoaks = '/layanan_klinik_hoaks';
 
@@ -122,6 +141,7 @@ class Routes {
   static const riwayatEtibi = '/riwayat_etibi';
   static const detailSkriningEtibi = '/detail_skrining_etibi';
   static const faskesEtibi = '/faskes_etibi';
+  static const faskesChoiceEtibi = '/faskes_choice_etibi';
 
   static const klinikHoaks = '/klinik_hoaks';
   static const laporanHoaks = '/laporan_hoaks';
@@ -135,6 +155,20 @@ class Routes {
   static const njkpBapenda = '/njkp_bapenda';
   static const detailNjkpBapenda = '/detail_njkp_bapenda';
   static const detailPajakBapenda = '/detail_pajak_bapenda';
+
+  static const layananNomorDarurat = '/nomor_darurat_page';
+
+  static const layananHargaBahanPokok = '/bahan_pokok_page';
+  static const detailHargaBahanPokok = '/detail_bahan_pokok_page';
+
+  // Profile Routes
+  static const dataDiri = '/data_diri';
+  static const ubahNamaLengkap = '/ubah_nama_lengkap';
+  static const ubahEmail = '/ubah_email';
+  static const ubahNik = '/ubah_nik';
+  static const ubahAlamat = '/ubah_alamat';
+  static const ubahNoHp = '/ubah_no_hp';
+  static const ubahKataSandi = '/ubah_kata_sandi';
 }
 
 final appRouter = GoRouter(
@@ -212,6 +246,25 @@ final appRouter = GoRouter(
       },
       builder: (context, state) => const RegisterPage(),
     ),
+
+    GoRoute(
+      path: Routes.registerOtp,
+      name: 'register otp',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: RegistrationOtpPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const RegistrationOtpPage(),
+    ),
+
     GoRoute(
       path: Routes.entranceLayanan,
       name: 'entrance layanan',
@@ -672,6 +725,24 @@ final appRouter = GoRouter(
     ),
 
     GoRoute(
+      path: Routes.layananKarsaHusada,
+      name: 'karsa husada',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: KarsaHusadaPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const KarsaHusadaPage(),
+    ),
+
+    GoRoute(
       path: Routes.layananDasaHusada,
       name: 'dasa husada',
       pageBuilder: (context, state) {
@@ -687,6 +758,60 @@ final appRouter = GoRouter(
         );
       },
       builder: (context, state) => const DasaHusadaPage(),
+    ),
+
+    GoRoute(
+      path: Routes.kamarDasaHusada,
+      name: 'kamar dasa husada',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: KetersediaanKamarPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const KetersediaanKamarPage(),
+    ),
+
+    GoRoute(
+      path: Routes.operasiDasaHusada,
+      name: 'operasi dasa husada',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: JadwalOperasiPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const JadwalOperasiPage(),
+    ),
+
+    GoRoute(
+      path: Routes.antrianDasaHusada,
+      name: 'antrian dasa husada',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: AntrianPasienPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const AntrianPasienPage(),
     ),
 
     GoRoute(
@@ -779,23 +904,41 @@ final appRouter = GoRouter(
       builder: (context, state) => const DetailHasilSkrining(),
     ),
 
-    // GoRoute(
-    //   path: Routes.faskesEtibi,
-    //   name: 'faskes etibi',
-    //   pageBuilder: (context, state) {
-    //     return CustomTransitionPage(
-    //       key: state.pageKey,
-    //       child: FaskesEtibi(),
-    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //         return FadeTransition(
-    //           opacity: animation,
-    //           child: child,
-    //         );
-    //       },
-    //     );
-    //   },
-    //   builder: (context, state) => const FaskesEtibi(),
-    // ),
+    GoRoute(
+      path: Routes.faskesEtibi,
+      name: 'faskes etibi',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: FaskesEtibiPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const FaskesEtibiPage(),
+    ),
+
+    GoRoute(
+      path: Routes.faskesChoiceEtibi,
+      name: 'faskes choice etibi',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: FaskesChoicePage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const FaskesChoicePage(),
+    ),
 
     GoRoute(
       path: Routes.layananIslamicCenter,
@@ -1103,6 +1246,60 @@ final appRouter = GoRouter(
     ),
 
     GoRoute(
+      path: Routes.layananNomorDarurat,
+      name: 'layanan nomor darurat',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: NomorDaruratPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const NomorDaruratPage(),
+    ),
+
+    GoRoute(
+      path: Routes.layananHargaBahanPokok,
+      name: 'layanan bahan pokok',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: HargaBahanPokokPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const HargaBahanPokokPage(),
+    ),
+
+    GoRoute(
+      path: Routes.detailHargaBahanPokok,
+      name: 'detail layanan bahan pokok',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: DetailBahanPokokPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const DetailBahanPokokPage(),
+    ),
+
+    GoRoute(
       path: Routes.allLayanan,
       name: 'all',
       pageBuilder: (context, state) {
@@ -1137,5 +1334,182 @@ final appRouter = GoRouter(
       },
       builder: (context, state) => const ActivityPage(),
     ),
+
+    // Profile Routes
+    // GoRoute(
+    //   path: Routes.dataDiri,
+    //   name: 'data diri',
+    //   pageBuilder: (context, state) {
+    //     return CustomTransitionPage(
+    //       key: state.pageKey,
+    //       child: DataDiriPage(),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         return FadeTransition(
+    //           opacity: animation,
+    //           child: child,
+    //         );
+    //       },
+    //     );
+    //   },
+    //   builder: (context, state) => const DataDiriPage(),
+    // ),
+    //
+    // GoRoute(
+    //   path: Routes.ubahNamaLengkap,
+    //   name: 'ubah nama lengkap',
+    //   pageBuilder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return CustomTransitionPage(
+    //       key: state.pageKey,
+    //       child: UbahDataPage(
+    //         fieldType: 'nama_lengkap',
+    //         initialValue: initialValue,
+    //       ),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         return FadeTransition(
+    //           opacity: animation,
+    //           child: child,
+    //         );
+    //       },
+    //     );
+    //   },
+    //   builder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return UbahDataPage(
+    //       fieldType: 'nama_lengkap',
+    //       initialValue: initialValue,
+    //     );
+    //   },
+    // ),
+    //
+    // GoRoute(
+    //   path: Routes.ubahEmail,
+    //   name: 'ubah email',
+    //   pageBuilder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return CustomTransitionPage(
+    //       key: state.pageKey,
+    //       child: UbahDataPage(
+    //         fieldType: 'email',
+    //         initialValue: initialValue,
+    //       ),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         return FadeTransition(
+    //           opacity: animation,
+    //           child: child,
+    //         );
+    //       },
+    //     );
+    //   },
+    //   builder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return UbahDataPage(
+    //       fieldType: 'email',
+    //       initialValue: initialValue,
+    //     );
+    //   },
+    // ),
+    //
+    // GoRoute(
+    //   path: Routes.ubahNik,
+    //   name: 'ubah nik',
+    //   pageBuilder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return CustomTransitionPage(
+    //       key: state.pageKey,
+    //       child: UbahDataPage(
+    //         fieldType: 'nik',
+    //         initialValue: initialValue,
+    //       ),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         return FadeTransition(
+    //           opacity: animation,
+    //           child: child,
+    //         );
+    //       },
+    //     );
+    //   },
+    //   builder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return UbahDataPage(
+    //       fieldType: 'nik',
+    //       initialValue: initialValue,
+    //     );
+    //   },
+    // ),
+    //
+    // GoRoute(
+    //   path: Routes.ubahAlamat,
+    //   name: 'ubah alamat',
+    //   pageBuilder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return CustomTransitionPage(
+    //       key: state.pageKey,
+    //       child: UbahDataPage(
+    //         fieldType: 'alamat',
+    //         initialValue: initialValue,
+    //       ),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         return FadeTransition(
+    //           opacity: animation,
+    //           child: child,
+    //         );
+    //       },
+    //     );
+    //   },
+    //   builder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return UbahDataPage(
+    //       fieldType: 'alamat',
+    //       initialValue: initialValue,
+    //     );
+    //   },
+    // ),
+    //
+    // GoRoute(
+    //   path: Routes.ubahNoHp,
+    //   name: 'ubah no hp',
+    //   pageBuilder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return CustomTransitionPage(
+    //       key: state.pageKey,
+    //       child: UbahDataPage(
+    //         fieldType: 'no_hp',
+    //         initialValue: initialValue,
+    //       ),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         return FadeTransition(
+    //           opacity: animation,
+    //           child: child,
+    //         );
+    //       },
+    //     );
+    //   },
+    //   builder: (context, state) {
+    //     final initialValue = state.extra as String? ?? '';
+    //     return UbahDataPage(
+    //       fieldType: 'no_hp',
+    //       initialValue: initialValue,
+    //     );
+    //   },
+    // ),
+    //
+    // GoRoute(
+    //   path: Routes.ubahKataSandi,
+    //   name: 'ubah kata sandi',
+    //   pageBuilder: (context, state) {
+    //     return CustomTransitionPage(
+    //       key: state.pageKey,
+    //       child: UbahKataSandiPage(),
+    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //         return FadeTransition(
+    //           opacity: animation,
+    //           child: child,
+    //         );
+    //       },
+    //     );
+    //   },
+    //   builder: (context, state) => const UbahKataSandiPage(),
+    // ),
   ]
 );

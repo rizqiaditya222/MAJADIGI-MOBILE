@@ -6,11 +6,17 @@ class LabeledHeader extends StatelessWidget {
   final String title;
   final String description;
   final String backgroundImage;
+
   final VoidCallback? onBackPressed;
   final VoidCallback? onBookmarkPressed;
+
   final TextEditingController? searchController;
+
   final bool showSearch;
   final String searchHintText;
+
+  final bool showFilterButton;
+  final VoidCallback? onFilterPressed;
 
   const LabeledHeader({
     super.key,
@@ -22,6 +28,8 @@ class LabeledHeader extends StatelessWidget {
     this.searchController,
     this.showSearch = false,
     this.searchHintText = 'Cari...',
+    this.showFilterButton = false,
+    this.onFilterPressed,
   });
 
   @override
@@ -33,12 +41,14 @@ class LabeledHeader extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // background
           Positioned.fill(
             child: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF0090FF), Color(0xFF005699)],
+                  colors: [
+                    Color(0xFF0090FF),
+                    Color(0xFF005699),
+                  ],
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                 ),
@@ -46,87 +56,188 @@ class LabeledHeader extends StatelessWidget {
               child: Image.asset(
                 backgroundImage,
                 fit: BoxFit.cover,
-                width: double.infinity,
               ),
             ),
           ),
-          // konten
+
           Padding(
             padding: const EdgeInsets.only(
               left: 12,
               right: 12,
-              top: 48,      // safe area / status bar
+              top: 48,
               bottom: 24,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                  CrossAxisAlignment.start,
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
-                      onPressed: onBackPressed ?? () {},
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                      onPressed:
+                      onBackPressed ?? () {},
                     ),
+
                     const SizedBox(width: 12),
+
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding:
+                        const EdgeInsets.only(
+                          top: 8,
+                        ),
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
                           children: [
                             Text(
                               title,
-                              style: AppTextStyles.semiBold(AppTextStyles.h2)
-                                  .copyWith(color: AppColors.white),
+                              style: AppTextStyles
+                                  .semiBold(
+                                AppTextStyles.h2,
+                              ).copyWith(
+                                color:
+                                Colors.white,
+                              ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(
+                              height: 4,
+                            ),
                             Text(
                               description,
-                              style: AppTextStyles.regular(AppTextStyles.body1)
-                                  .copyWith(color: AppColors.white),
+                              style: AppTextStyles
+                                  .regular(
+                                AppTextStyles
+                                    .body1,
+                              ).copyWith(
+                                color:
+                                Colors.white,
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+
                     IconButton(
-                      icon: const Icon(Icons.bookmark_add, color: Colors.white),
-                      onPressed: onBookmarkPressed ?? () {},
+                      icon: const Icon(
+                        Icons.bookmark_add,
+                        color: Colors.white,
+                      ),
+                      onPressed:
+                      onBookmarkPressed ??
+                              () {},
                     ),
                   ],
                 ),
-                if (showSearch && searchController != null) ...[
+
+                if (showSearch &&
+                    searchController != null) ...[
                   const SizedBox(height: 16),
+
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                        hintText: searchHintText,
-                        hintStyle: AppTextStyles.medium(AppTextStyles.body1)
-                            .copyWith(color: AppColors.dark300),
-                        prefixIcon: Icon(Icons.search, color: AppColors.dark300),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 14,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(28),
-                          borderSide: BorderSide(color: AppColors.white),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(28),
-                          borderSide: BorderSide(
-                            color: AppColors.blue300,
-                            width: 1.5,
+                    padding:
+                    const EdgeInsets.symmetric(
+                      horizontal: 8,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 52,
+                            decoration:
+                            BoxDecoration(
+                              color:
+                              Colors.white,
+                              borderRadius:
+                              BorderRadius
+                                  .circular(
+                                28,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors
+                                      .black
+                                      .withOpacity(
+                                    0.15,
+                                  ),
+                                  blurRadius:
+                                  10,
+                                  offset:
+                                  const Offset(
+                                    0,
+                                    4,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            child: TextField(
+                              controller:
+                              searchController,
+                              decoration:
+                              InputDecoration(
+                                hintText:
+                                searchHintText,
+                                border:
+                                InputBorder
+                                    .none,
+                                prefixIcon:
+                                const Icon(
+                                  Icons.search,
+                                ),
+                                contentPadding:
+                                const EdgeInsets
+                                    .symmetric(
+                                  vertical: 14,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                        filled: true,
-                        fillColor: AppColors.white,
-                      ),
+
+                        if (showFilterButton) ...[
+                          const SizedBox(
+                            width: 12,
+                          ),
+
+                          Material(
+                            color:
+                            Colors.white,
+                            elevation: 4,
+                            borderRadius:
+                            BorderRadius
+                                .circular(
+                              100,
+                            ),
+                            child: InkWell(
+                              borderRadius:
+                              BorderRadius
+                                  .circular(
+                                100,
+                              ),
+                              onTap:
+                              onFilterPressed,
+                              child: Container(
+                                width: 52,
+                                height: 52,
+                                alignment:
+                                Alignment
+                                    .center,
+                                child:
+                                const Icon(
+                                  Icons.tune,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ),
                 ],

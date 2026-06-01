@@ -6,8 +6,10 @@ import 'package:majadigi/core/theme/app_colors.dart';
 import 'package:majadigi/core/theme/app_text_styles.dart';
 
 import 'package:majadigi/core/widgets/labeled_header.dart';
+import 'package:majadigi/core/widgets/custom_tab_bar.dart';
 import 'package:majadigi/features/service/layanan_transjatim/transjatim_route_card.dart';
 import 'package:majadigi/features/service/layanan_transjatim/transjatim_ticket_card.dart';
+import 'widgets/transjatim_tentang_tab.dart';
 
 class TransjatimPage extends StatefulWidget {
   const TransjatimPage({super.key});
@@ -18,9 +20,10 @@ class TransjatimPage extends StatefulWidget {
 }
 
 class _TransjatimPage
-    extends State<TransjatimPage> {
+    extends State<TransjatimPage> with SingleTickerProviderStateMixin {
   final TextEditingController searchController =
   TextEditingController();
+  late TabController _tabController;
 
   /// =========================
   /// DATA DUMMY ROUTE
@@ -80,6 +83,19 @@ class _TransjatimPage
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.dark100,
@@ -100,168 +116,177 @@ class _TransjatimPage
             onBookmarkPressed: () {},
           ),
 
-          const SizedBox(height: 32),
+          /// TAB BAR
+          CustomTabBar(
+            tabController: _tabController,
+            tabs: const ['Layanan', 'Tentang'],
+          ),
 
-          /// CONTENT
+          /// TAB CONTENT
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  /// =========================
-                  /// TITLE TIKET
-                  /// =========================
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 30,
-                      right: 30,
-                      bottom: 8,
-                    ),
-                    child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment
-                          .spaceBetween,
-                      children: [
-                        Text(
-                          'Daftar Tiket',
-                          style:
-                          AppTextStyles.semiBold(
-                            AppTextStyles.h3,
-                          ).copyWith(
-                            color:
-                            AppColors.dark500,
-                          ),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-                            context.push(
-                              Routes.tiketTransjatim,
-                            );
-                          },
-                          child: Text(
-                            'Lihat Semua',
-                            style:
-                            AppTextStyles.medium(
-                              AppTextStyles.body1,
-                            ).copyWith(
-                              color:
-                              AppColors.blue300,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  /// =========================
-                  /// LIST TIKET
-                  /// =========================
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics:
-                    const NeverScrollableScrollPhysics(),
-                    padding:
-                    const EdgeInsets.fromLTRB(
-                      16,
-                      0,
-                      16,
-                      24,
-                    ),
-                    itemCount: ticketList.length,
-                    itemBuilder:
-                        (context, index) {
-                      final item =
-                      ticketList[index];
-
-                      return TransjatimTicketCard(
-                        title: item['title'],
-                        price: item['price'],
-                        image: item['image'],
-                      );
-                    },
-                  ),
-
-                  /// =========================
-                  /// TITLE RUTE
-                  /// =========================
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 30,
-                      right: 30,
-                      bottom: 8,
-                    ),
-                    child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment
-                          .spaceBetween,
-                      children: [
-                        Text(
-                          'Daftar Rute',
-                          style:
-                          AppTextStyles.semiBold(
-                            AppTextStyles.h3,
-                          ).copyWith(
-                            color:
-                            AppColors.dark500,
-                          ),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-                            context.push(
-                              Routes.ruteTransjatim,
-                            );
-                          },
-                          child: Text(
-                            'Lihat Semua',
-                            style:
-                            AppTextStyles.medium(
-                              AppTextStyles.body1,
-                            ).copyWith(
-                              color:
-                              AppColors.blue300,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  /// =========================
-                  /// LIST RUTE
-                  /// =========================
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics:
-                    const NeverScrollableScrollPhysics(),
-                    padding:
-                    const EdgeInsets.symmetric(
-                      horizontal: 16,
-                    ),
-                    itemCount: routeList.length,
-                    itemBuilder:
-                        (context, index) {
-                      final item =
-                      routeList[index];
-
-                      return TransjatimRouteCard(
-                        kode: item['kode'],
-                        route: item['route'],
-                        destination:
-                        item['destination'],
-                        time: item['time'],
-                        price: item['price'],
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 24),
-                ],
-              ),
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildLayananTab(),
+                const TransjatimTentangTab(),
+              ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  /// TAB 1: LAYANAN
+  Widget _buildLayananTab() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 32),
+
+          /// TITLE TIKET
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+              bottom: 8,
+            ),
+            child: Row(
+              mainAxisAlignment:
+              MainAxisAlignment
+                  .spaceBetween,
+              children: [
+                Text(
+                  'Daftar Tiket',
+                  style:
+                  AppTextStyles.semiBold(
+                    AppTextStyles.h3,
+                  ).copyWith(
+                    color:
+                    AppColors.dark500,
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    context.push(
+                      Routes.tiketTransjatim,
+                    );
+                  },
+                  child: Text(
+                    'Lihat Semua',
+                    style:
+                    AppTextStyles.medium(
+                      AppTextStyles.body1,
+                    ).copyWith(
+                      color:
+                      AppColors.blue300,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          /// LIST TIKET
+          ListView.builder(
+            shrinkWrap: true,
+            physics:
+            const NeverScrollableScrollPhysics(),
+            padding:
+            const EdgeInsets.fromLTRB(
+              16,
+              0,
+              16,
+              24,
+            ),
+            itemCount: ticketList.length,
+            itemBuilder:
+                (context, index) {
+              final item =
+              ticketList[index];
+
+              return TransjatimTicketCard(
+                title: item['title'],
+                price: item['price'],
+                image: item['image'],
+              );
+            },
+          ),
+
+          /// TITLE RUTE
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+              bottom: 8,
+            ),
+            child: Row(
+              mainAxisAlignment:
+              MainAxisAlignment
+                  .spaceBetween,
+              children: [
+                Text(
+                  'Daftar Rute',
+                  style:
+                  AppTextStyles.semiBold(
+                    AppTextStyles.h3,
+                  ).copyWith(
+                    color:
+                    AppColors.dark500,
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    context.push(
+                      Routes.ruteTransjatim,
+                    );
+                  },
+                  child: Text(
+                    'Lihat Semua',
+                    style:
+                    AppTextStyles.medium(
+                      AppTextStyles.body1,
+                    ).copyWith(
+                      color:
+                      AppColors.blue300,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          /// LIST RUTE
+          ListView.builder(
+            shrinkWrap: true,
+            physics:
+            const NeverScrollableScrollPhysics(),
+            padding:
+            const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            itemCount: routeList.length,
+            itemBuilder:
+                (context, index) {
+              final item =
+              routeList[index];
+
+              return TransjatimRouteCard(
+                kode: item['kode'],
+                route: item['route'],
+                destination:
+                item['destination'],
+                time: item['time'],
+                price: item['price'],
+              );
+            },
+          ),
+
+          const SizedBox(height: 24),
         ],
       ),
     );

@@ -18,7 +18,7 @@ class HasilSkriningEtibi extends StatefulWidget {
 
   const HasilSkriningEtibi({
     super.key,
-    this.riskLevel = RiskLevel.rendah,
+    this.riskLevel = RiskLevel.tinggi,
   });
 
   @override
@@ -215,11 +215,13 @@ class _HasilSkriningEtibiState
                       onPressed: () {
                         if (widget.riskLevel ==
                             RiskLevel.tinggi) {
-                          // context.push(
-                          //   Routes.faskesEtibi,
-                          // );
+                          context.push(
+                            Routes.faskesEtibi,
+                          );
                         } else {
-                          context.pop();
+                          context.go(
+                            Routes.layananEtibi,
+                          );
                         }
                       },
                     ),

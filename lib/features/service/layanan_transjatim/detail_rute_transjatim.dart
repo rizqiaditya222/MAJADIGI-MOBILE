@@ -160,7 +160,7 @@ class DetailRoutePage extends StatelessWidget {
 
                         /// ROUTE
                         SizedBox(
-                          height: 96,
+                          height: 110,
                           child: Stack(
                             alignment: Alignment.centerRight,
                             children: [
@@ -171,18 +171,23 @@ class DetailRoutePage extends StatelessWidget {
                                   /// LINE
                                   Padding(
                                     padding:
-                                    const EdgeInsets.only(top: 10),
+                                    const EdgeInsets.only(
+                                      top: 10,
+                                    ),
                                     child: Column(
                                       children: [
                                         Container(
                                           width: 10,
                                           height: 10,
-                                          decoration: BoxDecoration(
+                                          decoration:
+                                          BoxDecoration(
                                             color: Colors.white,
-                                            shape: BoxShape.circle,
+                                            shape:
+                                            BoxShape.circle,
                                             border: Border.all(
                                               color:
-                                              AppColors.blue300,
+                                              AppColors
+                                                  .blue300,
                                               width: 2,
                                             ),
                                           ),
@@ -191,11 +196,13 @@ class DetailRoutePage extends StatelessWidget {
                                         Container(
                                           width: 2,
                                           height: 38,
-                                          decoration: BoxDecoration(
+                                          decoration:
+                                          BoxDecoration(
                                             border: Border(
                                               left: BorderSide(
                                                 color:
-                                                AppColors.blue200,
+                                                AppColors
+                                                    .blue200,
                                                 width: 2,
                                               ),
                                             ),
@@ -205,12 +212,15 @@ class DetailRoutePage extends StatelessWidget {
                                         Container(
                                           width: 10,
                                           height: 10,
-                                          decoration: BoxDecoration(
+                                          decoration:
+                                          BoxDecoration(
                                             color: Colors.white,
-                                            shape: BoxShape.circle,
+                                            shape:
+                                            BoxShape.circle,
                                             border: Border.all(
                                               color:
-                                              AppColors.blue300,
+                                              AppColors
+                                                  .blue300,
                                               width: 2,
                                             ),
                                           ),
@@ -224,61 +234,85 @@ class DetailRoutePage extends StatelessWidget {
                                   /// DESTINATION
                                   Expanded(
                                     child: Column(
+                                      mainAxisSize:
+                                      MainAxisSize.min,
                                       children: [
                                         Container(
                                           width: double.infinity,
                                           padding:
-                                          const EdgeInsets.symmetric(
+                                          const EdgeInsets
+                                              .symmetric(
                                             horizontal: 14,
                                             vertical: 10,
                                           ),
-                                          decoration: BoxDecoration(
+                                          decoration:
+                                          BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                            BorderRadius.circular(
+                                            BorderRadius
+                                                .circular(
                                               10,
                                             ),
                                             border: Border.all(
-                                              color: const Color(
+                                              color:
+                                              const Color(
                                                 0xFFD9D9D9,
                                               ),
                                             ),
                                           ),
                                           child: Text(
                                             'Sidoarjo via Surabaya',
+                                            maxLines: 1,
+                                            overflow:
+                                            TextOverflow
+                                                .ellipsis,
                                             style:
-                                            AppTextStyles.medium(
-                                              AppTextStyles.body2,
+                                            AppTextStyles
+                                                .medium(
+                                              AppTextStyles
+                                                  .body2,
                                             ),
                                           ),
                                         ),
 
-                                        const SizedBox(height: 14),
+                                        const SizedBox(
+                                          height: 14,
+                                        ),
 
                                         Container(
                                           width: double.infinity,
                                           padding:
-                                          const EdgeInsets.symmetric(
+                                          const EdgeInsets
+                                              .symmetric(
                                             horizontal: 14,
                                             vertical: 10,
                                           ),
-                                          decoration: BoxDecoration(
+                                          decoration:
+                                          BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                            BorderRadius.circular(
+                                            BorderRadius
+                                                .circular(
                                               10,
                                             ),
                                             border: Border.all(
-                                              color: const Color(
+                                              color:
+                                              const Color(
                                                 0xFFD9D9D9,
                                               ),
                                             ),
                                           ),
                                           child: Text(
                                             'Gresik',
+                                            maxLines: 1,
+                                            overflow:
+                                            TextOverflow
+                                                .ellipsis,
                                             style:
-                                            AppTextStyles.medium(
-                                              AppTextStyles.body2,
+                                            AppTextStyles
+                                                .medium(
+                                              AppTextStyles
+                                                  .body2,
                                             ),
                                           ),
                                         ),
@@ -296,9 +330,11 @@ class DetailRoutePage extends StatelessWidget {
                                 child: Container(
                                   width: 46,
                                   height: 46,
-                                  decoration: const BoxDecoration(
+                                  decoration:
+                                  const BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: AppColors.blue300,
+                                    color:
+                                    AppColors.blue300,
                                   ),
                                   child: const Icon(
                                     Icons.arrow_forward_rounded,
@@ -309,7 +345,7 @@ class DetailRoutePage extends StatelessWidget {
                               ),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),

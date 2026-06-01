@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:majadigi/core/theme/app_colors.dart';
 import 'package:majadigi/core/theme/app_text_styles.dart';
-import 'package:majadigi/features/home/presentation/pages/aktivitas/aktivitas_page.dart';
 
+import 'package:majadigi/features/home/presentation/pages/aktivitas/aktivitas_page.dart';
 import 'package:majadigi/features/home/presentation/pages/home_page.dart';
 import 'package:majadigi/features/service/list_layanan/all_layanan_page.dart';
 
@@ -19,20 +18,17 @@ class MainNavigationPage extends StatefulWidget {
   });
 
   @override
-  State<MainNavigationPage> createState() =>
-      _MainNavigationPageState();
+  State<MainNavigationPage> createState() => _MainNavigationPageState();
 }
 
-class _MainNavigationPageState
-    extends State<MainNavigationPage> {
-
+class _MainNavigationPageState extends State<MainNavigationPage> {
   late int _selectedIndex;
 
-  final List<Widget> _pages = [
-    const HomePage(),
-    const AllLayananPage(),
-    const ActivityPage(),
-    const ProfilePage(),
+  final List<Widget> _pages = const [
+    HomePage(),
+    AllLayananPage(),
+    ActivityPage(),
+    ProfilePage(),
   ];
 
   @override
@@ -42,6 +38,8 @@ class _MainNavigationPageState
   }
 
   void _onItemTapped(int index) {
+    if (_selectedIndex == index) return;
+
     setState(() {
       _selectedIndex = index;
     });
@@ -50,14 +48,15 @@ class _MainNavigationPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _pages,
+        ),
       ),
-
-      bottomNavigationBar: Container(
-        height: 78,
-
+      bottomNavigationBar: DecoratedBox(
         decoration: const BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -68,90 +67,71 @@ class _MainNavigationPageState
             ),
           ],
         ),
+        child: SafeArea(
+          top: false,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              splashFactory: NoSplash.splashFactory,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+            ),
+            child: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
 
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: Colors.white,
+              elevation: 0,
 
-          backgroundColor: Colors.white,
-          elevation: 0,
+              selectedItemColor: AppColors.blue300,
+              unselectedItemColor: AppColors.dark300,
 
-          type: BottomNavigationBarType.fixed,
+              selectedFontSize: 11,
+              unselectedFontSize: 11,
 
-          selectedItemColor: AppColors.blue300,
-          unselectedItemColor: AppColors.dark300,
+              selectedLabelStyle: AppTextStyles.semiBold(
+                AppTextStyles.body3,
+              ),
+              unselectedLabelStyle: AppTextStyles.medium(
+                AppTextStyles.body3,
+              ),
 
-          selectedFontSize: 11,
-          unselectedFontSize: 11,
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
 
-          iconSize: 24,
-
-          selectedLabelStyle:
-          AppTextStyles.semiBold(
-            AppTextStyles.body3,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home_rounded,
+                    size: 24,
+                  ),
+                  label: 'Beranda',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.favorite_border_rounded,
+                    size: 24,
+                  ),
+                  label: 'Layanan',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.assignment_outlined,
+                    size: 24,
+                  ),
+                  label: 'Aktivitas',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.person_rounded,
+                    size: 24,
+                  ),
+                  label: 'Profil',
+                ),
+              ],
+            ),
           ),
-
-          unselectedLabelStyle:
-          AppTextStyles.medium(
-            AppTextStyles.body3,
-          ),
-
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-
-          items: [
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 4,
-                ),
-                child: Icon(
-                  Icons.home_rounded,
-                  size: 26,
-                ),
-              ),
-              label: 'Beranda',
-            ),
-
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 4,
-                ),
-                child: Icon(
-                  Icons.favorite_border_rounded,
-                  size: 26,
-                ),
-              ),
-              label: 'Layanan',
-            ),
-
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 4,
-                ),
-                child: Icon(
-                  Icons.assignment_outlined,
-                  size: 26,
-                ),
-              ),
-              label: 'Aktivitas',
-            ),
-
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 4,
-                ),
-                child: Icon(
-                  Icons.person_rounded,
-                  size: 26,
-                ),
-              ),
-              label: 'Profil',
-            ),
-          ],
         ),
       ),
     );

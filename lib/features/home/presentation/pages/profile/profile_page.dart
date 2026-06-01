@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:majadigi/core/router/app_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
 import 'package:majadigi/core/theme/app_text_styles.dart';
 import 'package:majadigi/core/widgets/profile_menu_item.dart';
@@ -180,7 +182,9 @@ class ProfilePage extends StatelessWidget {
                   ProfileMenuItem(
                     icon: Icons.person,
                     title: 'Data diri',
-                    onTap: () {},
+                    onTap: () {
+                      context.push(Routes.dataDiri);
+                    },
                   ),
 
                   _divider(),
@@ -188,7 +192,9 @@ class ProfilePage extends StatelessWidget {
                   ProfileMenuItem(
                     icon: Icons.key_outlined,
                     title: 'Ubah Kata Sandi',
-                    onTap: () {},
+                   onTap: () {
+                      context.push(Routes.ubahKataSandi);
+                    },
                   ),
 
                   const SizedBox(height: 32),

@@ -372,7 +372,7 @@ class _RegisterPage extends State<RegisterPage> {
                           label: 'Daftar',
                           variant: ButtonVariant.primary,
                           onPressed: () {
-                            context.go(Routes.entranceLayanan);
+                            context.go(Routes.registerOtp);
                           },
                         ),
 

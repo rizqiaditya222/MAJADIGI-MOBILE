@@ -78,6 +78,20 @@ class _AllLayananPageState extends State<AllLayananPage> {
       'image': 'lib/assets/images/jatim_icon.png',
       'route': Routes.layananKlinikHoaks,
     },
+    {
+      'category': 'SOSIAL',
+      'title': 'Nomor Darurat',
+      'description': 'Panggil nomor ini dalam keadaan darurat.',
+      'image': 'lib/assets/images/jatim_icon.png',
+      'route': Routes.layananNomorDarurat,
+    },
+    {
+      'category': 'EKONOMI',
+      'title': 'Harga Bahan Pokok',
+      'description': 'Daftar harga bahan pokok saat ini.',
+      'image': 'lib/assets/images/jatim_icon.png',
+      'route': Routes.layananHargaBahanPokok,
+    },
   ];
 
   @override
