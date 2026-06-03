@@ -44,6 +44,13 @@ class _AllLayananPageState extends State<AllLayananPage> {
       'route': Routes.layananDasaHusada,
     },
     {
+    'category': 'KESEHATAN',
+    'title': 'Karsa Husada',
+    'description': 'Layanan kesehatan masyarakat.',
+    'image': 'lib/assets/images/jatim_icon.png',
+    'route': Routes.layananKarsaHusada,
+    },
+    {
       'category': 'PARIWISATA',
       'title': 'Destinasi Wisata',
       'description': 'Temukan destinasi wisata terbaik.',
