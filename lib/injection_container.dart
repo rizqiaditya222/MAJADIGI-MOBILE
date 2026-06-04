@@ -17,7 +17,11 @@ import 'package:majadigi/features/bapenda/data/datasources/info_pajak_remote_dat
 import 'package:majadigi/features/bapenda/presentation/bloc/info_pajak_bloc.dart';
 import 'package:majadigi/features/bapenda/data/datasources/njkb_remote_datasource.dart';
 import 'package:majadigi/features/bapenda/presentation/bloc/njkb_bloc.dart';
-
+import 'package:majadigi/features/karsa_husada/domain/entities/karsa_husada_entity.dart';
+import 'package:majadigi/features/karsa_husada/presentation/bloc/karsa_husada_bloc.dart';
+import 'package:majadigi/features/karsa_husada/data/datasources/karsa_husada_remote_datasource.dart';
+import 'package:majadigi/features/skrining_etibi/data/datasources/etibi_remote_datasource.dart';
+import 'package:majadigi/features/skrining_etibi/presentation/bloc/etibi_bloc.dart';
 
 final s1 = GetIt.instance;
 
@@ -34,7 +38,9 @@ Future<void> init() async {
   s1.registerLazySingleton<DahaHusadaRemoteDatasource>(() => DahaHusadaRemoteDatasourceImpl(dio: s1()),);
   s1.registerLazySingleton<InfoPajakRemoteDatasource>(() => InfoPajakRemoteDatasourceImpl(dio: s1()));
   s1.registerLazySingleton<NjkbRemoteDatasource>(() => NjkbRemoteDatasourceImpl(dio: s1()));
-
+  s1.registerLazySingleton<KarsaHusadaRemoteDatasource>(() => KarsaHusadaRemoteDatasourceImpl(dio: s1()));
+  s1.registerLazySingleton<EtibiRemoteDatasource>(() => EtibiRemoteDatasourceImpl(dio: s1()));
+  
   // Repositories
   s1.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(remoteDatasource: s1<AuthRemoteDatasource>()));
 
@@ -49,4 +55,6 @@ Future<void> init() async {
   s1.registerFactory(() => AntrianBloc(remoteDatasource: s1()));
   s1.registerFactory(() => InfoPajakBloc(remoteDatasource: s1()));
   s1.registerFactory(() => NjkbBloc(remoteDatasource: s1()));
+  s1.registerFactory(() => KarsaHusadaBloc(remoteDatasource: s1()));
+  s1.registerFactory(() => EtibiBloc(remoteDatasource: s1()));
 }

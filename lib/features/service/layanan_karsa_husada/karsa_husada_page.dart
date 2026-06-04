@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
 import 'package:majadigi/core/theme/app_text_styles.dart';
@@ -6,16 +7,33 @@ import 'package:majadigi/core/widgets/index.dart';
 import 'package:majadigi/core/widgets/labeled_header.dart';
 import 'package:majadigi/features/service/layanan_dasa_husada/widget/summary_card.dart';
 
+// Sesuaikan path import BLoC, Entity, dan Dependency Injection (s1)
+import 'package:majadigi/injection_container.dart';
+import 'package:majadigi/features/karsa_husada/domain/entities/karsa_husada_entity.dart';
+import 'package:majadigi/features/karsa_husada/presentation/bloc/karsa_husada_bloc.dart';
+
 import '../../../core/router/app_router.dart';
 
-class KarsaHusadaPage extends StatefulWidget {
+class KarsaHusadaPage extends StatelessWidget {
   const KarsaHusadaPage({super.key});
 
   @override
-  State<KarsaHusadaPage> createState() => _KarsaHusadaPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => s1<KarsaHusadaBloc>()..add(FetchKamarKarsaHusada()),
+      child: const KarsaHusadaView(),
+    );
+  }
 }
 
-class _KarsaHusadaPageState extends State<KarsaHusadaPage>
+class KarsaHusadaView extends StatefulWidget {
+  const KarsaHusadaView({super.key});
+
+  @override
+  State<KarsaHusadaView> createState() => _KarsaHusadaViewState();
+}
+
+class _KarsaHusadaViewState extends State<KarsaHusadaView>
     with SingleTickerProviderStateMixin {
   final TextEditingController searchController = TextEditingController();
   late TabController _tabController;
@@ -42,9 +60,8 @@ class _KarsaHusadaPageState extends State<KarsaHusadaPage>
         children: [
           /// HEADER
           LabeledHeader(
-            title: 'RSUD Daha Husada',
-            description:
-            'Info ketersediaan kamar rawat RSUD Daha Husada Batu',
+            title: 'RSUD Karsa Husada',
+            description: 'Info ketersediaan kamar rawat RSUD Karsa Husada Batu',
             backgroundImage: 'lib/assets/images/background_wisata.png',
             searchController: searchController,
             onBackPressed: () {
@@ -66,7 +83,7 @@ class _KarsaHusadaPageState extends State<KarsaHusadaPage>
               controller: _tabController,
               children: [
                 _buildLayananTab(),
-                const DasaHusadaTentangTab(),
+                const KarsaHusadaTentangTab(),
               ],
             ),
           ),
@@ -75,125 +92,84 @@ class _KarsaHusadaPageState extends State<KarsaHusadaPage>
     );
   }
 
-  /// TAB 1: LAYANAN
+  /// TAB 1: LAYANAN (TERINTEGRASI BLOC)
   Widget _buildLayananTab() {
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ketersediaan Kamar Rawat',
-                  style: AppTextStyles.bold(
-                    AppTextStyles.h4,
+    return BlocBuilder<KarsaHusadaBloc, KarsaHusadaState>(
+      builder: (context, state) {
+        if (state is KarsaHusadaLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is KarsaHusadaError) {
+          return Center(
+              child: Text(state.message,
+                  style: const TextStyle(color: Colors.red)));
+        } else if (state is KarsaHusadaLoaded) {
+          final summary = state.data.summary;
+          final rooms = state.data.rooms;
+
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Ketersediaan Kamar Rawat',
+                              style: AppTextStyles.bold(AppTextStyles.h4)),
+                          Text(
+                            summary.lastUpdate.isNotEmpty 
+                                ? summary.lastUpdate.substring(0, 10) 
+                                : '',
+                            style: AppTextStyles.medium(AppTextStyles.body3)
+                                .copyWith(color: AppColors.dark300),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      SummaryCard(
+                        color: const Color(0xFFFF0054),
+                        icon: Icons.local_hospital,
+                        value: summary.total.toString(),
+                        title: 'Total Kamar Rawat',
+                      ),
+                      const SizedBox(height: 10),
+                      SummaryCard(
+                        color: const Color(0xFF1FA55B),
+                        icon: Icons.person_add_alt_1,
+                        value: summary.available.toString(),
+                        title: 'Tersedia',
+                      ),
+                      const SizedBox(height: 10),
+                      SummaryCard(
+                        color: const Color(0xFFF39C12),
+                        icon: Icons.meeting_room,
+                        value: summary.occupied.toString(),
+                        title: 'Terisi',
+                      ),
+                      const SizedBox(height: 28),
+                      Text('Status Ketersediaan Ruangan',
+                          style: AppTextStyles.bold(AppTextStyles.h4)),
+                      const SizedBox(height: 16),
+                      _buildTable(rooms),
+                    ],
                   ),
                 ),
-
-                const SizedBox(height: 16),
-
-                SummaryCard(
-                  color: const Color(0xFFFF0054),
-                  icon: Icons.local_hospital,
-                  value: '253',
-                  title: 'Total Kamar Rawat',
-                ),
-
-                const SizedBox(height: 10),
-
-                SummaryCard(
-                  color: const Color(0xFF1FA55B),
-                  icon: Icons.person_add_alt_1,
-                  value: '154',
-                  title: 'Tersedia',
-                ),
-
-                const SizedBox(height: 10),
-
-                SummaryCard(
-                  color: const Color(0xFFF39C12),
-                  icon: Icons.meeting_room,
-                  value: '99',
-                  title: 'Terisi',
-                ),
-
-                const SizedBox(height: 28),
-
-                Text(
-                  'Status Ketersediaan Ruangan',
-                  style: AppTextStyles.bold(
-                    AppTextStyles.h4,
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                _buildTable(),
-              ],
-            ),
-          ),
-        ),
-
-
-      ],
+              ),
+            ],
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 
-  Widget _buildTable() {
-    final data = [
-      {
-        'ruang': 'AMARILIS A',
-        'kelas': 'Kelas I',
-        'kapasitas': '6',
-        'terisi': '3',
-        'tersedia': '3',
-      },
-      {
-        'ruang': 'AMARILIS A',
-        'kelas': 'Kelas I',
-        'kapasitas': '6',
-        'terisi': '3',
-        'tersedia': '3',
-      },
-      {
-        'ruang': 'CVCU',
-        'kelas': 'Kelas I',
-        'kapasitas': '6',
-        'terisi': '3',
-        'tersedia': '3',
-      },
-      {
-        'ruang': 'EDELWIS A',
-        'kelas': 'Kelas I',
-        'kapasitas': '6',
-        'terisi': '3',
-        'tersedia': '3',
-      },
-      {
-        'ruang': 'EDELWIS B',
-        'kelas': 'Kelas I',
-        'kapasitas': '6',
-        'terisi': '3',
-        'tersedia': '3',
-      },
-      {
-        'ruang': 'AMARILIS A',
-        'kelas': 'Kelas I',
-        'kapasitas': '6',
-        'terisi': '3',
-        'tersedia': '3',
-      },
-      {
-        'ruang': 'AMARILIS A',
-        'kelas': 'Kelas I',
-        'kapasitas': '6',
-        'terisi': '3',
-        'tersedia': '3',
-      },
-    ];
+  Widget _buildTable(List<KarsaHusadaRoomEntity> rooms) {
+    if (rooms.isEmpty) {
+      return const Center(child: Text('Tidak ada data ruangan.'));
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -209,100 +185,36 @@ class _KarsaHusadaPageState extends State<KarsaHusadaPage>
             dataRowMinHeight: 42,
             dataRowMaxHeight: 42,
             columnSpacing: 24,
-            headingRowColor: MaterialStateProperty.all(
-              const Color(0xFFE8F0FB),
-            ),
+            headingRowColor: MaterialStateProperty.all(const Color(0xFFE8F0FB)),
             columns: [
-              DataColumn(
-                label: Text(
-                  'Ruang',
-                  style: AppTextStyles.bold(
-                    AppTextStyles.body3,
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Kelas',
-                  style: AppTextStyles.bold(
-                    AppTextStyles.body3,
-                  ),
-                ),
-              ),
-              DataColumn(
-                numeric: true,
-                label: Text(
-                  'Kapasitas',
-                  style: AppTextStyles.bold(
-                    AppTextStyles.body3,
-                  ),
-                ),
-              ),
-              DataColumn(
-                numeric: true,
-                label: Text(
-                  'Terisi',
-                  style: AppTextStyles.bold(
-                    AppTextStyles.body3,
-                  ),
-                ),
-              ),
-              DataColumn(
-                numeric: true,
-                label: Text(
-                  'Tersedia',
-                  style: AppTextStyles.bold(
-                    AppTextStyles.body3,
-                  ),
-                ),
-              ),
+              DataColumn(label: Text('Ruang', style: AppTextStyles.bold(AppTextStyles.body3))),
+              DataColumn(label: Text('Kelas', style: AppTextStyles.bold(AppTextStyles.body3))),
+              DataColumn(numeric: true, label: Text('Kapasitas', style: AppTextStyles.bold(AppTextStyles.body3))),
+              DataColumn(numeric: true, label: Text('Terisi', style: AppTextStyles.bold(AppTextStyles.body3))),
+              DataColumn(numeric: true, label: Text('Tersedia', style: AppTextStyles.bold(AppTextStyles.body3))),
             ],
-            rows: data.map((item) {
+            rows: rooms.map((item) {
               return DataRow(
                 cells: [
                   DataCell(
                     Text(
-                      item['ruang']!,
-                      style: AppTextStyles.bold(
-                        AppTextStyles.body3,
-                      ).copyWith(
-                        color: item['ruang']!.contains('AMARILIS') ||
-                                item['ruang']!.contains('CVCU')
+                      item.name,
+                      style: AppTextStyles.bold(AppTextStyles.body3).copyWith(
+                        color: item.available == 0
                             ? const Color(0xFFFF0054)
                             : const Color(0xFFF39C12),
                       ),
                     ),
                   ),
+                  DataCell(Text(item.type, style: AppTextStyles.medium(AppTextStyles.body3))),
+                  DataCell(Text(item.total.toString())),
                   DataCell(
-                    Text(
-                      item['kelas']!,
-                      style: AppTextStyles.medium(
-                        AppTextStyles.body3,
-                      ),
-                    ),
+                    Text(item.occupied.toString(),
+                        style: const TextStyle(color: Color(0xFFF39C12), fontWeight: FontWeight.w600)),
                   ),
                   DataCell(
-                    Text(
-                      item['kapasitas']!,
-                    ),
-                  ),
-                  DataCell(
-                    Text(
-                      item['terisi']!,
-                      style: const TextStyle(
-                        color: Color(0xFFF39C12),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  DataCell(
-                    Text(
-                      item['tersedia']!,
-                      style: const TextStyle(
-                        color: Color(0xFF1FA55B),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    Text(item.available.toString(),
+                        style: const TextStyle(color: Color(0xFF1FA55B), fontWeight: FontWeight.w600)),
                   ),
                 ],
               );
@@ -315,9 +227,8 @@ class _KarsaHusadaPageState extends State<KarsaHusadaPage>
 }
 
 /// TAB 2: TENTANG - COMPONENT LOKAL
-class DasaHusadaTentangTab extends StatelessWidget {
-  const DasaHusadaTentangTab({super.key});
-
+class KarsaHusadaTentangTab extends StatelessWidget {
+  const KarsaHusadaTentangTab({super.key});
   @override
   Widget build(BuildContext context) {
     return TentangTab(
@@ -325,9 +236,8 @@ class DasaHusadaTentangTab extends StatelessWidget {
         AccordionItemData(
           title: 'Operasional',
           content: OperasionalContent(
-            linkUrl: 'https://rsud.badung.go.id/',
-            alamat:
-            'Jl. Raya Sesetan, Sesetan, Denpasar, Bali 80223, Indonesia',
+            linkUrl: 'https://rsudkarsahusadabatu.jatimprov.go.id/',
+            alamat: 'Jl. Ahmad Yani No.10-13, Ngaglik, Kec. Batu, Kota Batu, Jawa Timur 65311',
             jamOperasional: {
               'Senin': '08:00 - 20:00',
               'Selasa': '08:00 - 20:00',
@@ -335,7 +245,7 @@ class DasaHusadaTentangTab extends StatelessWidget {
               'Kamis': '08:00 - 20:00',
               'Jumat': '08:00 - 20:00',
               'Sabtu': '08:00 - 17:00',
-              'Minggu': '08:00 - 17:00',
+              'Minggu': 'Libur',
             },
             mediaSosial: [
               {'icon': Icons.camera_alt_outlined, 'label': 'Instagram'},
@@ -348,36 +258,17 @@ class DasaHusadaTentangTab extends StatelessWidget {
           title: 'Ketentuan Umum',
           content: KetentuanUmumContent(
             manfaatTitle: 'Manfaat Layanan',
-            manfaatDescription:
-            'RSUD Daha Husada adalah rumah sakit milik pemerintah daerah yang memberikan pelayanan kesehatan berkualitas dengan standar internasional untuk masyarakat umum.',
+            manfaatDescription: 'RSUD Karsa Husada memberikan layanan kesehatan yang prima dengan fasilitas terkini untuk seluruh masyarakat Jawa Timur.',
             manfaatItems: [
-              'Pelayanan medis 24 jam dengan dokter spesialis berpengalaman',
-              'Fasilitas perawatan intensif dan operasi modern',
-              'Layanan farmasi lengkap dengan harga terjangkau',
-              'Program kesehatan preventif dan edukasi masyarakat',
-              'Sistem informasi kesehatan terintegrasi',
-              'Kemitraan dengan berbagai asuransi kesehatan',
-              'Tim medis dan paramedis profesional dan berkomitmen',
+              'Pelayanan medis dengan dokter spesialis berpengalaman',
+              'Fasilitas perawatan intensif dan operasi',
+              'Layanan farmasi lengkap',
             ],
             prosedurTitle: 'Prosedur Pendaftaran',
             prosedurItems: [
-              'Datang ke loket pendaftaran dengan membawa KTP atau identitas lainnya',
-              'Isi formulir pendaftaran pasien dengan data yang lengkap dan benar',
-              'Serahkan formulir kepada petugas untuk diproses',
-              'Tunggu panggilan dan masuk ke ruang pemeriksaan dokter',
-              'Lakukan pembayaran sesuai dengan jenis asuransi yang dimiliki',
-            ],
-          ),
-        ),
-        AccordionItemData(
-          title: 'Tentang Layanan',
-          content: TentangLayananContent(
-            title: 'Tentang RSUD Daha Husada Batu',
-            paragraphs: [
-              'RSUD Daha Husada adalah Rumah Sakit Umum Daerah milik Pemerintah Kota Batu yang berkomitmen memberikan pelayanan kesehatan berkualitas, terjangkau, dan mudah diakses oleh seluruh masyarakat.',
-              'Dengan fasilitas modern dan tenaga medis profesional, kami siap melayani segala kebutuhan kesehatan Anda mulai dari pemeriksaan umum hingga tindakan operasi yang kompleks.',
-              'Visi kami adalah menjadi rumah sakit pilihan utama yang dipercaya masyarakat. Misi kami memberikan pelayanan kesehatan prima dengan teknologi terkini, sumber daya manusia yang kompeten, dan nilai-nilai kemanusiaan yang tinggi.',
-              'Kami terus berinovasi dan meningkatkan kualitas pelayanan untuk memenuhi kebutuhan kesehatan masyarakat Kota Batu dan sekitarnya.',
+              'Datang ke loket pendaftaran',
+              'Isi formulir pendaftaran',
+              'Tunggu panggilan',
             ],
           ),
         ),

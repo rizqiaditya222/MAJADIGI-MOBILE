@@ -88,6 +88,8 @@ class _HargaBahanPokokPageState extends State<HargaBahanPokokPage> with SingleTi
               showFilterButton: true,
               searchHintText: 'Cari data bahan pokok',
               onFilterPressed: _showFilterSheet,
+              // INI SOLUSI TOMBOL BACK YANG MACET:
+              onBackPressed: () => context.pop(), 
             ),
             CustomTabBar(
               tabController: _tabController,
@@ -106,7 +108,6 @@ class _HargaBahanPokokPageState extends State<HargaBahanPokokPage> with SingleTi
                         return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
                       } else if (state is CommodityLoaded) {
                         final pages = _getPages(state.commodities);
-                        
                         if (pages.isEmpty) {
                           return const Center(child: Text('Tidak ada data komoditas.'));
                         }

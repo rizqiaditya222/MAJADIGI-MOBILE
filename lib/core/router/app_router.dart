@@ -892,9 +892,13 @@ final appRouter = GoRouter(
       path: Routes.detailSkriningEtibi,
       name: 'detail skrining etibi',
       pageBuilder: (context, state) {
+        // 1. Tangkap ID yang dilempar dari halaman riwayat
+        final id = state.extra as int; 
+
         return CustomTransitionPage(
           key: state.pageKey,
-          child: DetailHasilSkrining(),
+          // 2. Masukkan ID-nya ke parameter questionnaireId
+          child: DetailHasilSkrining(questionnaireId: id), 
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -903,9 +907,9 @@ final appRouter = GoRouter(
           },
         );
       },
-      builder: (context, state) => const DetailHasilSkrining(),
+      // 3. Jika kamu memakai property builder juga, pastikan menangkap ID-nya:
+      // builder: (context, state) => DetailHasilSkrining(questionnaireId: state.extra as int),
     ),
-
     GoRoute(
       path: Routes.faskesEtibi,
       name: 'faskes etibi',

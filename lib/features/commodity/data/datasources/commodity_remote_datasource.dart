@@ -14,13 +14,13 @@ class CommodityRemoteDatasourceImpl implements CommodityRemoteDatasource {
   @override
   Future<List<CommodityEntity>> getCommodities({int page = 1, String search = ''}) async {
     try {
-      // Sesuai dengan dokumentasi Bruno
       final response = await dio.get(
         '/api/service/harga-bahan-pokok/commodities',
         data: {
-          "date": "2026-06-01", // Menggunakan tanggal hari ini secara statis untuk testing
+          // Tanggal kita hapus agar backend otomatis memakai tanggal hari ini
           "search": search,
-          "page": page
+          "page": page,
+          "limit": 100 // Minta 100 data sekaligus agar UI Flutter bisa membaginya jadi beberapa halaman (slide)
         },
       );
 
@@ -40,7 +40,6 @@ class CommodityRemoteDatasourceImpl implements CommodityRemoteDatasource {
   @override
   Future<CommodityDetailEntity> getCommodityDetail(int id) async {
     try {
-      // Mengirimkan JSON Body ke dalam request GET
       final response = await dio.get(
         '/api/service/harga-bahan-pokok/commodity-detail',
         data: {

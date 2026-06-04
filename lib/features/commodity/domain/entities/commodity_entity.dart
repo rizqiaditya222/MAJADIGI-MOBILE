@@ -20,7 +20,6 @@ class CommodityEntity {
     );
   }
 
-  // Konversi cerdas untuk UI temanmu
   bool get isUp => status.toLowerCase() == 'naik';
 }
 
