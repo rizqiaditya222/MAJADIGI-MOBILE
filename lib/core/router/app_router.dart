@@ -38,7 +38,7 @@ import 'package:majadigi/features/service/layanan_dasa_husada/dasa_husada_page.d
 import 'package:majadigi/features/service/layanan_dasa_husada/jadwal_operasi.dart';
 import 'package:majadigi/features/service/layanan_dasa_husada/ketersediaan_kamar.dart';
 import 'package:majadigi/features/service/layanan_destinasi_wisata/destinasi_wisata_page.dart';
-import 'package:majadigi/features/service/layanan_destinasi_wisata/detail_destinasi_wisata_page.dart';
+import 'package:majadigi/features/service/layanan_destinasi_wisata/detail_destinasi_wisata_page.dart' as detail_page; 
 import 'package:majadigi/features/service/layanan_destinasi_wisata/list_destinasi_wisata.dart';
 import 'package:majadigi/features/service/layanan_harga_bahan/detail_bahan_pokok.dart';
 import 'package:majadigi/features/service/layanan_harga_bahan/harga_bahan_page.dart';
@@ -605,7 +605,8 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         return CustomTransitionPage(
           key: state.pageKey,
-          child: DestinasiWisataPage(),
+          // Pastikan DestinasiWisataPage ini dikenali dari import di atas
+          child: const DestinasiWisataPage(), 
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -614,16 +615,17 @@ final appRouter = GoRouter(
           },
         );
       },
-      builder: (context, state) => const DestinasiWisataPage(),
     ),
 
     GoRoute(
       path: Routes.detailLayananDestinasiWisata,
       name: 'detail destinasi wisata',
       pageBuilder: (context, state) {
+        final id = state.extra as int;
         return CustomTransitionPage(
           key: state.pageKey,
-          child: DetailDestinasiWisataPage(),
+          // Gunakan prefix 'detail_page' yang kita buat tadi
+          child: detail_page.DetailDestinasiWisataPage(destinasiId: id), 
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -632,7 +634,6 @@ final appRouter = GoRouter(
           },
         );
       },
-      builder: (context, state) => const DetailDestinasiWisataPage(),
     ),
 
     GoRoute(
@@ -710,20 +711,17 @@ final appRouter = GoRouter(
 
     GoRoute(
       path: Routes.detailRuteTransjatim,
-      name: 'detail rute transjatim',
+      name: 'detail rute',
       pageBuilder: (context, state) {
+        final id = state.extra as int; // Tangkap pelemparan parameter ID
         return CustomTransitionPage(
           key: state.pageKey,
-          child: DetailRoutePage(),
+          child: DetailRoutePage(routeId: id),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
+            return FadeTransition(opacity: animation, child: child);
           },
         );
       },
-      builder: (context, state) => const DetailRoutePage(),
     ),
 
     GoRoute(
