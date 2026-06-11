@@ -18,8 +18,15 @@ class DestinasiEntity {
   });
 
   factory DestinasiEntity.fromJson(Map<String, dynamic> json) {
+    // 🕵️ ALAT PENYADAP ABSOLUT: Cetak semua JSON yang masuk!
+    print("🕵️ BENTUK JSON ASLI: $json");
+
     return DestinasiEntity(
-      id: json['id'] ?? 0,
+      id: json['id'] != null 
+          ? int.tryParse(json['id'].toString()) ?? 0 
+          : json['destination_id'] != null 
+              ? int.tryParse(json['destination_id'].toString()) ?? 0 
+              : 0,
       name: json['name'] ?? '',
       location: json['location'] ?? '',
       description: json['description'],

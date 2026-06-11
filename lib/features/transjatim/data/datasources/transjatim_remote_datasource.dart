@@ -29,8 +29,6 @@ class TransjatimRemoteDatasourceImpl implements TransjatimRemoteDatasource {
 
   @override
   Future<List<TransjatimRouteEntity>> getRouteList({int? amount}) async {
-    // Jika amount null (saat klik Lihat Semua), kita "tipu" backend 
-    // dengan mengirim angka besar agar error 400 tidak terpancing.
     final response = await dio.get(
       '$basePath/list-rute', 
       data: {"amount": amount ?? 999}, 
@@ -40,8 +38,22 @@ class TransjatimRemoteDatasourceImpl implements TransjatimRemoteDatasource {
   }
   @override
   Future<TransjatimRouteEntity> getRouteDetail(int routeId) async {
-    // Backend meminta parameter `route_id` dikirim di body
-    final response = await dio.get('$basePath/detail-rute', data: {"route_id": routeId});
-    return TransjatimRouteEntity.fromJson(response.data['data']);
+    try {
+      print("🚀 [TransJatim] MENGIRIM ID RUTE: $routeId");
+      
+      final response = await dio.request(
+        '$basePath/detail-rute', 
+        // SERANGAN GANDA: Kirim lewat URL dan Body sekaligus!
+        queryParameters: {"route_id": routeId}, 
+        data: {"route_id": routeId},
+        options: Options(method: 'GET', contentType: Headers.jsonContentType),
+      );
+      
+      return TransjatimRouteEntity.fromJson(response.data['data']);
+    } on DioException catch (e) {
+      // ALAT PENYADAP: Melihat pesan asli dari backend
+      print("❌ [TransJatim] ERROR ASLI BACKEND: ${e.response?.data}");
+      rethrow;
+    }
   }
 }

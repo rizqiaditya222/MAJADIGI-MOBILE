@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:fl_chart/fl_chart.dart'; // <-- Import Peta Grafik
+import 'package:intl/intl.dart';         // <-- Import Format
+
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/auth_header_widget.dart';
@@ -62,7 +65,7 @@ class _DetailBahanPokokPageState extends State<DetailBahanPokokPage> {
                   AuthHeaderWidget(
                     imagePath: 'lib/assets/images/bahan_background.png',
                     showTitle: true,
-                    title: 'Detail Komoditas', // Bisa disesuaikan dengan passing name dari list
+                    title: 'Detail Komoditas',
                     onBackPressed: () => context.pop(),
                   ),
                   Expanded(
@@ -152,7 +155,7 @@ class _DetailBahanPokokPageState extends State<DetailBahanPokokPage> {
             decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Image.asset('lib/assets/images/bawang_putih.png'), // Gambar statis sementara
+              child: Image.asset('lib/assets/images/bawang_putih.png'),
             ),
           ),
         ],
@@ -161,8 +164,22 @@ class _DetailBahanPokokPageState extends State<DetailBahanPokokPage> {
   }
 
   Widget _buildChartCard(CommodityDetailEntity detail) {
+    // 1. Siapkan titik data untuk grafik
+    List<FlSpot> spots = [];
+    for (int i = 0; i < detail.priceHistory.length; i++) {
+      spots.add(FlSpot(i.toDouble(), detail.priceHistory[i].averagePrice));
+    }
+
+    // 2. Cari titik tertinggi dan terendah untuk batas sumbu Y
+    double maxY = detail.priceHistory.isEmpty ? 0 : detail.priceHistory.map((e) => e.averagePrice).reduce((a, b) => a > b ? a : b);
+    double minY = detail.priceHistory.isEmpty ? 0 : detail.priceHistory.map((e) => e.averagePrice).reduce((a, b) => a < b ? a : b);
+    
+    // Tambahkan jarak (padding) atas-bawah agar grafik tidak mentok ke atap/lantai
+    double paddingY = (maxY - minY) * 0.2; 
+    if (paddingY == 0) paddingY = 1000; // Jaga-jaga jika semua harganya sama rata
+
     return Container(
-      height: 215,
+      height: 280, // Ditinggikan sedikit agar chart punya ruang napas
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: Column(
@@ -182,10 +199,92 @@ class _DetailBahanPokokPageState extends State<DetailBahanPokokPage> {
               color: detail.status.toLowerCase() == 'naik' ? const Color(0xFFFF0054) : const Color(0xFF27AE60),
             ),
           ),
-          const Expanded(
-            child: Center(
-              child: Text('Line Chart Area\n(Integrasi FlChart Nanti)'),
-            ),
+          const SizedBox(height: 24),
+          
+          // AREA FL_CHART
+          Expanded(
+            child: detail.priceHistory.isEmpty
+                ? const Center(child: Text("Data riwayat harga tidak tersedia"))
+                : LineChart(
+                    LineChartData(
+                      minY: minY - paddingY < 0 ? 0 : minY - paddingY,
+                      maxY: maxY + paddingY,
+                      minX: 0,
+                      maxX: (detail.priceHistory.length - 1).toDouble(),
+                      
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: spots,
+                          isCurved: true,
+                          color: AppColors.blue300, 
+                          barWidth: 3,
+                          isStrokeCapRound: true,
+                          dotData: const FlDotData(show: true),
+                          belowBarData: BarAreaData(
+                            show: true,
+                            color: AppColors.blue300.withOpacity(0.15),
+                          ),
+                        ),
+                      ],
+                      
+                      titlesData: FlTitlesData(
+                        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                        
+                        // Sumbu Y (Harga Kiri)
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 45,
+                            getTitlesWidget: (value, meta) {
+                              return Text(
+                                NumberFormat.compactCurrency(locale: 'id_ID', symbol: '').format(value),
+                                style: const TextStyle(color: Colors.grey, fontSize: 10),
+                              );
+                            },
+                          ),
+                        ),
+                        
+                        // Sumbu X (Tanggal Bawah)
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 22,
+                            interval: 1,
+                            getTitlesWidget: (value, meta) {
+                              int index = value.toInt();
+                              if (index >= 0 && index < detail.priceHistory.length) {
+                                DateTime date = DateTime.parse(detail.priceHistory[index].date);
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(DateFormat('dd/MM').format(date), style: const TextStyle(color: Colors.grey, fontSize: 10)),
+                                );
+                              }
+                              return const Text('');
+                            },
+                          ),
+                        ),
+                      ),
+                      
+                      gridData: FlGridData(
+                        show: true,
+                        drawVerticalLine: false,
+                        getDrawingHorizontalLine: (value) => FlLine(color: Colors.grey.shade200, strokeWidth: 1),
+                      ),
+                      
+                      lineTouchData: LineTouchData(
+                        touchTooltipData: LineTouchTooltipData(
+                          getTooltipColor: (spot) => Colors.black87,
+                          getTooltipItems: (touchedSpots) {
+                            return touchedSpots.map((spot) {
+                              final price = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0).format(spot.y);
+                              return LineTooltipItem(price, const TextStyle(color: Colors.white, fontWeight: FontWeight.bold));
+                            }).toList();
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
           ),
         ],
       ),
@@ -217,7 +316,7 @@ class _DetailBahanPokokPageState extends State<DetailBahanPokokPage> {
           Expanded(child: Text(item.city, style: AppTextStyles.medium(AppTextStyles.body1))),
           Icon(item.isUp ? Icons.arrow_drop_up : Icons.arrow_drop_down, color: item.isUp ? const Color(0xFFFF0054) : const Color(0xFF27AE60)),
           Text(
-            formatRp(item.price),
+             formatRp(item.price),
             style: AppTextStyles.bold(AppTextStyles.body1).copyWith(
               color: item.isUp ? const Color(0xFFFF0054) : const Color(0xFF27AE60),
             ),

@@ -16,11 +16,12 @@ class CommodityRemoteDatasourceImpl implements CommodityRemoteDatasource {
     try {
       final response = await dio.get(
         '/api/service/harga-bahan-pokok/commodities',
+        // Catatan: Jika suatu saat GET list ini gagal di server publik, 
+        // ganti kata "data:" di bawah ini menjadi "queryParameters:"
         data: {
-          // Tanggal kita hapus agar backend otomatis memakai tanggal hari ini
           "search": search,
           "page": page,
-          "limit": 100 // Minta 100 data sekaligus agar UI Flutter bisa membaginya jadi beberapa halaman (slide)
+          "limit": 100 
         },
       );
 
@@ -43,11 +44,20 @@ class CommodityRemoteDatasourceImpl implements CommodityRemoteDatasource {
       final response = await dio.get(
         '/api/service/harga-bahan-pokok/commodity-detail',
         data: {
-          "id": id
+          "commodity_id": id
         },
       );
 
+      // ======== ALAT PENYADAP (DEBUGGING) ========
+      print(" ");
+      print("=== CEK DATA API DETAIL BAHAN POKOK ===");
+      print(response.data);
+      print("=======================================");
+      print(" ");
+      // ===========================================
+      
       if (response.statusCode == 200) {
+        // Cek struktur ini nanti di terminal, apakah benar 'data']['data'] atau hanya 'data'
         final Map<String, dynamic> detailData = response.data['data']['data'] ?? {};
         return CommodityDetailEntity.fromJson(detailData);
       } else {

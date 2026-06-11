@@ -57,7 +57,9 @@ class _ListDestinasiWisataPage extends State<ListDestinasiWisataPage> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: GestureDetector(
-                            onTap: () => context.push(Routes.detailLayananDestinasiWisata, extra: wisata.id),
+                            onTap: () {
+                              context.push(Routes.detailLayananDestinasiWisata, extra: wisata.id);
+                            },
                             child: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(16)),

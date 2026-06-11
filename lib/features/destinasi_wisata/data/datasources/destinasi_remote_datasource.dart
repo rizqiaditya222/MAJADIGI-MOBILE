@@ -12,35 +12,63 @@ class DestinasiRemoteDatasourceImpl implements DestinasiRemoteDatasource {
   final Dio dio;
   DestinasiRemoteDatasourceImpl({required this.dio});
 
-  // Sesuaikan dengan endpoint base path Express-mu
   final String basePath = '/api/service/destinasi-wisata';
 
   @override
   Future<List<DestinasiEntity>> getDestinations(int page, int limit, String search) async {
-    final response = await dio.get('$basePath/list-destinasi', data: {"page": page, "limit": limit, "search": search});
+    // Sudah menggunakan queryParameters agar aman
+    final response = await dio.get(
+      '$basePath/list-destinasi', 
+      queryParameters: {"page": page, "limit": limit, "search": search}
+    );
+    
     final List data = response.data['data']['data'] ?? [];
+    
+    // ALAT PENYADAP JSON LIST:
+    if (data.isNotEmpty) {
+      print("🔍 CEK BENTUK JSON DESTINASI DARI BACKEND: ${data[0]}");
+    }
+    
     return data.map((e) => DestinasiEntity.fromJson(e)).toList();
   }
 
   @override
   Future<List<DestinasiEntity>> getPopularDestinations(int page, int limit, String search) async {
-    final response = await dio.get('$basePath/list-destinasi-populer', data: {"page": page, "limit": limit, "search": search});
+    final response = await dio.get(
+      '$basePath/list-destinasi-populer', 
+      queryParameters: {"page": page, "limit": limit, "search": search}
+    );
     final List data = response.data['data']['data'] ?? [];
     return data.map((e) => DestinasiEntity.fromJson(e)).toList();
   }
 
   @override
   Future<List<DestinasiEntity>> getNearbyDestinations(int page, int limit, String search, double lat, double lon) async {
-    // Memerlukan parameter wajib: latitude & longitude
-    final response = await dio.get('$basePath/list-destinasi-terdekat', data: {"page": page, "limit": limit, "search": search, "latitude": lat, "longitude": lon});
+    final response = await dio.get(
+      '$basePath/list-destinasi-terdekat', 
+      queryParameters: {"page": page, "limit": limit, "search": search, "latitude": lat, "longitude": lon}
+    );
     final List data = response.data['data']['data'] ?? [];
     return data.map((e) => DestinasiEntity.fromJson(e)).toList();
   }
 
   @override
   Future<DestinasiEntity> getDestinationDetail(int id) async {
-    final response = await dio.get('$basePath/detail-destinasi', data: {"destination_id": id});
-    // Menyesuaikan typo di backend (menggunakan key 'date' alih-alih 'data')
-    return DestinasiEntity.fromJson(response.data['date']);
+    try {
+      print("🚀 [Destinasi] MENGIRIM ID DESTINASI: $id");
+      
+      final response = await dio.request(
+        '$basePath/detail-destinasi', 
+        // SERANGAN GANDA: Kirim lewat URL dan Body sekaligus!
+        queryParameters: {"destination_id": id}, 
+        data: {"destination_id": id}, 
+        options: Options(method: 'GET', contentType: Headers.jsonContentType),
+      );
+      
+      return DestinasiEntity.fromJson(response.data['date']);
+    } on DioException catch (e) {
+      print("❌ [Destinasi] ERROR ASLI BACKEND: ${e.response?.data}");
+      rethrow;
+    }
   }
 }

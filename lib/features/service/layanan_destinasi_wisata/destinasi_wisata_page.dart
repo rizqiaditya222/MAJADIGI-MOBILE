@@ -112,7 +112,7 @@ class _DestinasiWisataPage extends State<DestinasiWisataPage> with SingleTickerP
                           child: GestureDetector(
                             onTap: () {
                               context.push(Routes.detailLayananDestinasiWisata, extra: wisata.id);
-                            },
+                              }, 
                             child: Container(
                               width: 216,
                               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
