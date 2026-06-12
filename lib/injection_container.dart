@@ -22,6 +22,10 @@ import 'package:majadigi/features/karsa_husada/presentation/bloc/karsa_husada_bl
 import 'package:majadigi/features/karsa_husada/data/datasources/karsa_husada_remote_datasource.dart';
 import 'package:majadigi/features/skrining_etibi/data/datasources/etibi_remote_datasource.dart';
 import 'package:majadigi/features/skrining_etibi/presentation/bloc/etibi_bloc.dart';
+import 'package:majadigi/features/destinasi_wisata/data/datasources/destinasi_remote_datasource.dart';
+import 'package:majadigi/features/destinasi_wisata/presentation/bloc/destinasi_bloc.dart';
+import 'package:majadigi/features/transjatim/data/datasources/transjatim_remote_datasource.dart';
+import 'package:majadigi/features/transjatim/presentation/bloc/transjatim_bloc.dart';
 
 import 'features/auth/domain/usecases/login_usecase.dart';
 import 'features/auth/presentation/bloc/layanan_bloc.dart';
@@ -47,7 +51,9 @@ Future<void> init() async {
   s1.registerLazySingleton<NjkbRemoteDatasource>(() => NjkbRemoteDatasourceImpl(dio: s1()));
   s1.registerLazySingleton<KarsaHusadaRemoteDatasource>(() => KarsaHusadaRemoteDatasourceImpl(dio: s1()));
   s1.registerLazySingleton<EtibiRemoteDatasource>(() => EtibiRemoteDatasourceImpl(dio: s1()));
-  
+  s1.registerLazySingleton<DestinasiRemoteDatasource>(() => DestinasiRemoteDatasourceImpl(dio: s1()));
+  s1.registerLazySingleton<TransjatimRemoteDatasource>(() => TransjatimRemoteDatasourceImpl(dio: s1()));
+
   // Repositories
   s1.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(remoteDatasource: s1<AuthRemoteDatasource>()));
 
@@ -68,4 +74,6 @@ Future<void> init() async {
   s1.registerFactory(() => KarsaHusadaBloc(remoteDatasource: s1()));
   s1.registerFactory(() => EtibiBloc(remoteDatasource: s1()));
   s1.registerFactory(() => RegisterBloc(s1()));
+  s1.registerFactory(() => DestinasiBloc(remoteDatasource: s1()));
+  s1.registerFactory(() => TransjatimBloc(remoteDatasource: s1()));
 }
