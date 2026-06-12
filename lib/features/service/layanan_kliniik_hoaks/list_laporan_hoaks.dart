@@ -23,7 +23,7 @@ class _ListLaporanHoaksState
       'Donald Trump Singgung Sunni dan Syiah di Indonesia terkait Dukungan ke Iran',
       'date': '17 April 2026',
       'image':
-      'lib/assets/images/hoaks_background.png',
+      'lib/assets/images/hoaks_sample.png',
       'status': 'HOAKS',
     },
     {
@@ -31,7 +31,7 @@ class _ListLaporanHoaksState
       'Donald Trump Singgung Sunni dan Syiah di Indonesia terkait Dukungan ke Iran',
       'date': '17 April 2026',
       'image':
-      'lib/assets/images/hoaks_background.png',
+      'lib/assets/images/hoaks_sample.png',
       'status': 'HOAKS',
     },
     {
@@ -39,21 +39,21 @@ class _ListLaporanHoaksState
       'Donald Trump Singgung Sunni dan Syiah di Indonesia terkait Dukungan ke Iran',
       'date': '17 April 2026',
       'image':
-      'lib/assets/images/hoaks_background.png',
+      'lib/assets/images/hoaks_sample.png',
       'status': 'HOAKS',
     },    {
       'title':
       'Donald Trump Singgung Sunni dan Syiah di Indonesia terkait Dukungan ke Iran',
       'date': '17 April 2026',
       'image':
-      'lib/assets/images/hoaks_background.png',
+      'lib/assets/images/hoaks_sample.png',
       'status': 'HOAKS',
     },    {
       'title':
       'Donald Trump Singgung Sunni dan Syiah di Indonesia terkait Dukungan ke Iran',
       'date': '17 April 2026',
       'image':
-      'lib/assets/images/hoaks_background.png',
+      'lib/assets/images/hoaks_sample.png',
       'status': 'HOAKS',
     },
   ];
@@ -143,7 +143,7 @@ class _ListLaporanHoaksState
                                   alignment: Alignment.topCenter,
                                   children: [
                                     Image.asset(
-                                      'lib/assets/images/hoaks_background.png',
+                                      'lib/assets/images/hoaks_sample.png',
                                       width: double.infinity,
                                       height: 140,
                                       fit: BoxFit.cover,

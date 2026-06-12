@@ -105,7 +105,9 @@ class _EntrancePage extends State<EntrancePage> {
                   PrimaryButton(
                     label: 'Masuk Sebagai Guest',
                     variant: ButtonVariant.secondary,
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go(Routes.mainNavigation);
+                    },
                   ),
 
                   SizedBox(height: 16),

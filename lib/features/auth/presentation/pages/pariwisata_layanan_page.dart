@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/core/router/app_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
@@ -9,6 +10,8 @@ import 'package:majadigi/core/widgets/service_card_widget.dart';
 import 'package:majadigi/core/widgets/option_card_widget.dart';
 
 import '../../../../core/widgets/primary_button.dart';
+import '../bloc/layanan_bloc.dart';
+import '../bloc/layanan_event.dart';
 
 class PariwisataLayananPage extends StatefulWidget {
   const PariwisataLayananPage({super.key});
@@ -66,39 +69,35 @@ class _PariwisataLayananPage extends State<PariwisataLayananPage> {
                               child: Column(
                                 children: [
                                   OptionCardWidget(
-                                    imagePath: 'lib/assets/images/pariwisata_icon.png',
-                                    category: 'Sosial',
-                                    title: 'Bantuan Sosial',
-                                    description: 'Program bantuan sosial untuk keluarga kurang mampu',
-                                    onTap: () {
-                                      print('Option card tapped');
-                                    },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
-                                    },
-                                  ),
-                                  OptionCardWidget(
-                                    imagePath: 'lib/assets/images/social_icon.png',
-                                    category: 'Sosial',
-                                    title: 'Pemberdayaan Masyarakat',
-                                    description: 'Program pemberdayaan dan pelatihan keterampilan',
-                                    onTap: () {
-                                      print('Option card tapped');
-                                    },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
+                                    imagePath: 'lib/assets/images/icon_destinasi.png',
+                                    category: 'Pariwisata & Kebudayaan',
+                                    title: 'Destinasi Wisata',
+                                    description: 'Panduan terkait destinasi wisata di Jawa Timur',
+                                    onTap: () {},
+                                    onCheckboxChanged: (selected) {
+                                      context.read<LayananBloc>().add(
+                                        ToggleServiceEvent(
+                                          category: 'Pariwisata & Kebudayaan',
+                                          service: 'Destinasi Wisata',
+                                          selected: selected,
+                                        ),
+                                      );
                                     },
                                   ),
                                   OptionCardWidget(
                                     imagePath: 'lib/assets/images/social_icon.png',
-                                    category: 'Sosial',
-                                    title: 'Perlindungan Anak',
-                                    description: 'Layanan perlindungan dan pemeliharaan anak',
-                                    onTap: () {
-                                      print('Option card tapped');
-                                    },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
+                                    category: 'Pariwisata & Kebudayaan',
+                                    title: 'Transjatim',
+                                    description: 'Platform layanan bus Trans Jatim',
+                                    onTap: () {},
+                                    onCheckboxChanged: (selected) {
+                                      context.read<LayananBloc>().add(
+                                        ToggleServiceEvent(
+                                          category: 'Pariwisata & Kebudayaan',
+                                          service: 'Transjatim',
+                                          selected: selected,
+                                        ),
+                                      );
                                     },
                                   ),
                                 ],

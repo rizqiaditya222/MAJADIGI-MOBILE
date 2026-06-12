@@ -19,43 +19,19 @@ class _LayananCepatWisataPageState
   final List<Map<String, dynamic>> layananItems = [
     {
       'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Ekonomi',
-      'title': 'Harga Bahan Pokok',
+      'lib/assets/images/banner_wisata.png',
+      'subtitle': 'Pariwisata & Kebudayaan',
+      'title': 'Destinasi Wisata',
       'description':
-      'Informasi harian seputar harga bahan pokok',
+      'Panduan terkait destinasi wisata di Jawa Timur',
     },
     {
       'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Sosial',
-      'title': 'Nomor Darurat',
+      'lib/assets/images/banner_transjatim.png',
+      'subtitle': 'Pariwisata & Kebudayaan',
+      'title': 'Transjatim',
       'description':
-      'Nomor yang dapat dihubungi oleh masyarakat',
-    },
-    {
-      'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Sosial',
-      'title': 'Klinik Hoaks',
-      'description':
-      'Cegah penyebaran berita hoaks',
-    },
-    {
-      'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Ekonomi',
-      'title': 'Bapenda',
-      'description':
-      'Info & layanan pajak kendaraan bermotor',
-    },
-    {
-      'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Sosial',
-      'title': 'Islamic Center',
-      'description':
-      'Pemesanan online fasilitas aula & asrama di Islamic Center Surabaya',
+      'Platform layanan bus Trans Jatim',
     },
   ];
 

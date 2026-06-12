@@ -48,35 +48,35 @@ class _KlinikHoaksPageState extends State<KlinikHoaksPage>
       'description':
       'Kirim informasi yang kamu temukan, kami bantu klarifikasi 24 jam',
       'image':
-      'lib/assets/images/etibi_sample.png',
+      'lib/assets/images/laporan_hoaks.png',
     },
     {
       'title': 'Lacak Tiket Laporan',
       'description':
       'Pantau status permohonan klarifikasi yang telah diajukan secara real time',
       'image':
-      'lib/assets/images/etibi_sample.png',
+      'lib/assets/images/lacak_laporan.png',
     },
   ];
 
   final List<Map<String, String>> laporanTerkini = [
     {
       'image':
-      'lib/assets/images/etibi_sample.png',
+      'lib/assets/images/hoaks_sample.png',
       'title':
       'Donald Trump Singgung Sunni dan Syiah di Indonesia terkait Dukungan ke Iran Konten rekayasa atau palsu untuk provokasi dan menyesatkan opini publik. Konten rekayasa atau palsu untuk provokasi dan menyesatkan opini publik.',
       'date': '7 April 2025',
     },
     {
       'image':
-      'lib/assets/images/etibi_sample.png',
+      'lib/assets/images/hoaks_sample.png',
       'title':
       'Donald Trump Singgung Sunni dan Syiah di Indonesia terkait Dukungan ke Iran',
       'date': '3 Januari 2025',
     },
     {
       'image':
-      'lib/assets/images/etibi_sample.png',
+      'lib/assets/images/hoaks_sample.png',
       'title':
       'Donald Trump Singgung Sunni dan Syiah di Indonesia terkait Dukungan ke Iran',
       'date': '12 Februari 2025',

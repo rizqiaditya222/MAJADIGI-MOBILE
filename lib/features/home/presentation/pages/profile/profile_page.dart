@@ -193,7 +193,7 @@ class ProfilePage extends StatelessWidget {
                     icon: Icons.key_outlined,
                     title: 'Ubah Kata Sandi',
                    onTap: () {
-                      context.push(Routes.ubahKataSandi);
+                      context.push(Routes.gantiPassword);
                     },
                   ),
 
@@ -211,11 +211,11 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(height: 12),
 
                   ProfileMenuItem(
-                    icon:
-                    Icons.location_on_outlined,
-                    title:
-                    'Tentang Jawa Timur',
-                    onTap: () {},
+                    icon: Icons.location_on_outlined,
+                    title: 'Tentang Jawa Timur',
+                    onTap: () {
+                      context.push(Routes.tentangJatim);
+                    },
                   ),
 
                   _divider(),
@@ -232,7 +232,9 @@ class ProfilePage extends StatelessWidget {
                   ProfileMenuItem(
                     icon: Icons.info_outline,
                     title: 'Tentang Majadigi',
-                    onTap: () {},
+                    onTap: () {
+                      context.push(Routes.tentangMajadigi);
+                    },
                   ),
 
                   _divider(),
@@ -247,21 +249,21 @@ class ProfilePage extends StatelessWidget {
                   _divider(),
 
                   ProfileMenuItem(
-                    icon:
-                    Icons.description_outlined,
-                    title:
-                    'Syarat & Ketentuan',
-                    onTap: () {},
+                    icon: Icons.description_outlined,
+                    title: 'Syarat & Ketentuan',
+                    onTap: () {
+                      context.push(Routes.syaratKetentuan);
+                    },
                   ),
 
                   _divider(),
 
                   ProfileMenuItem(
-                    icon:
-                    Icons.shield_outlined,
-                    title:
-                    'Kebijakan Privasi',
-                    onTap: () {},
+                    icon: Icons.shield_outlined,
+                    title: 'Kebijakan Privasi',
+                    onTap: () {
+                      context.push(Routes.kebijakanPrivasi);
+                    },
                   ),
 
                   const SizedBox(height: 32),

@@ -3,6 +3,7 @@ import 'package:majadigi/core/theme/app_colors.dart';
 import 'package:majadigi/core/theme/app_text_styles.dart';
 import 'package:majadigi/core/widgets/index.dart';
 import 'package:majadigi/core/widgets/labeled_header.dart';
+import 'package:android_intent_plus/android_intent.dart';
 
 class NomorDaruratPage extends StatefulWidget {
   const NomorDaruratPage({super.key});
@@ -15,6 +16,32 @@ class _NomorDaruratPageState extends State<NomorDaruratPage>
     with SingleTickerProviderStateMixin {
   final TextEditingController searchController =
   TextEditingController();
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final cleanNumber =
+    phoneNumber.replaceAll(RegExp(r'[^0-9+]'), '');
+
+    try {
+      final intent = AndroidIntent(
+        action: 'android.intent.action.DIAL',
+        data: 'tel:$cleanNumber',
+      );
+
+      await intent.launch();
+    } catch (e) {
+      debugPrint('CALL ERROR: $e');
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Gagal membuka aplikasi telepon: $e',
+          ),
+        ),
+      );
+    }
+  }
 
   late TabController _tabController;
 
@@ -213,7 +240,9 @@ class _NomorDaruratPageState extends State<NomorDaruratPage>
                   width: double.infinity,
                   height: 40,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _makePhoneCall(number);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                       const Color(0xFFFF0054),
@@ -256,13 +285,52 @@ class NomorDaruratTentangTab
     return TentangTab(
       accordionItems: [
         AccordionItemData(
+          title: 'Operasional',
+          content: OperasionalContent(
+            linkUrl: 'https://siskaperbapo.jatimprov.go.id/',
+            alamat:
+            'Jl. Siwalankerto Utara II/42 Surabaya',
+            jamOperasional: {
+              'Senin': '24 Jam',
+              'Selasa': '24 Jam',
+              'Rabu': '24 Jam',
+              'Kamis': '24 Jam',
+              'Jumat': '24 Jam',
+              'Sabtu': '24 Jam',
+              'Minggu': '24 Jam',
+            },
+            // mediaSosial: [
+            //   {'icon': Icons.camera_alt_outlined, 'label': 'Instagram'},
+            //   {'icon': Icons.facebook_outlined, 'label': 'Facebook'},
+            //   {'icon': Icons.language, 'label': 'Website'},
+            // ],
+          ),
+        ),
+        AccordionItemData(
+          title: 'Ketentuan Umum',
+          content: KetentuanUmumContent(
+            manfaatTitle: 'Manfaat Layanan',
+            manfaatDescription:
+            'Layanan nomor darurat memberikan akses cepat dan mudah untuk mencari pertolongan saat seseorang mengalami atau mengetahui situasi darurat seperti kebakaran, banjir, kecelakaan lalu lintas, kriminalitas, dan lainnya. Dengan begitu, layanan ini diharapkan mampu mempercepat penanganan keadaan darurat dan meminimalisir dampak buruk yang muncul akibat situasi darurat. Layanan nomor darurat beroperasi 24 jam sehari, dan 7 hari seminggu. Sehingga masyarakat bisa mengaksesnya kapanpun dan dari manapun.',
+            // manfaatItems: [
+            //   'Akses informasi harga bahan pokok secara harian dan transparan.',
+            //   'Pemantauan ketersediaan bahan pokok dengan mudah, kapan saja.',
+            //   'Mendukung pengendalian inflasi dan menjaga stabilitas harga bahan pokok.',
+            // ],
+            prosedurTitle: 'Sistem, Mekanisme, dan Prosedur',
+            prosedurItems: [
+              'Kontak darurat biasanya lebih pendek atau sedikit dengan tujuan agar mudah diingat. Pastikan Anda menyimpan daftar kontak darurat di ponsel Anda atau tempat yang mudah dijangkau. Terakhir, pastikan Anda memberikan informasi secara jelas mengenai kejadian dan lokasinya agar petugas bisa mengeksekusinya lebih cepat.',
+            ],
+          ),
+        ),
+        AccordionItemData(
           title: 'Tentang Layanan',
           content: TentangLayananContent(
-            title: 'Nomor Darurat Jawa Timur',
+            title: 'Tentang Nomor Darurat',
             paragraphs: [
-              'Layanan Nomor Darurat Jawa Timur menyediakan daftar nomor penting yang dapat dihubungi masyarakat dalam kondisi darurat.',
-              'Melalui layanan ini masyarakat dapat dengan mudah mengakses nomor ambulans, kepolisian, call center pemerintah, dan layanan penting lainnya.',
-              'Pastikan menggunakan layanan ini secara bijak dan hanya untuk kebutuhan yang benar-benar mendesak.',
+              'Nomor darurat merupakan layanan cepat tanggap dari pemerintah atau instansi terkait untuk memberikan bantuan kepada masyarakat. Nomor ini dapat dihubungi saat warga menghadapi situasi mendesak, berbahaya, atau yang mengancam nyawa—seperti kecelakaan, kebakaran, bencana alam, gangguan keamanan, hingga kondisi medis gawat darurat.',
+              'Sejak 2015, pemerintah Indonesia menerapkan Program Layanan Call Center 112 di berbagai daerah di Indonesia. Nomor darurat sengaja dibuat singkat agar mudah diingat dan bisa diakses dengan cepat. Selain Call Center 112, masing-masing wilayah di Indonesia juga memiliki nomor darurat khusus yang bisa mempercepat penanganan. Di Jawa Timur misalnya, tiap instansi menyediakan nomor darurat khusus yang bisa diakses 24 jam dan bebas pulsa.',
+            'Agar berjalan efektif, warga dihimbau tidak melakukan panggilan iseng. Informasi yang jelas dan tepat saat melapor akan membantu petugas memberikan respon cepat dan tepat sasaran.'
             ],
           ),
         ),

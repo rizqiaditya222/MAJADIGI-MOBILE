@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/features/auth/presentation/pages/entrance_layanan_page.dart';
 import 'package:majadigi/features/auth/presentation/pages/list_layanan_page.dart';
@@ -25,6 +26,7 @@ import 'package:majadigi/features/home/presentation/pages/layanan/layanan_cepat_
 import 'package:majadigi/features/home/presentation/pages/layanan/layanan_cepat_wisata.dart';
 import 'package:majadigi/features/home/presentation/pages/notification_page.dart';
 import 'package:majadigi/features/home/presentation/pages/profile/data_diri_page.dart';
+import 'package:majadigi/features/home/presentation/pages/profile/ganti_password.dart';
 import 'package:majadigi/features/home/presentation/pages/profile/ubah_data_page.dart';
 import 'package:majadigi/features/home/presentation/pages/profile/ubah_kata_sandi_page.dart';
 import 'package:majadigi/features/navigation/presentation/main_navigation_page.dart';
@@ -62,7 +64,12 @@ import 'package:majadigi/features/service/layanan_transjatim/detail_rute_transja
 import 'package:majadigi/features/service/layanan_transjatim/transjatim_page.dart';
 import 'package:majadigi/features/service/list_layanan/all_layanan_page.dart';
 
+import '../../features/auth/presentation/bloc/register_bloc.dart';
 import '../../features/auth/presentation/pages/entrance_page.dart';
+import '../../features/home/presentation/pages/profile/kebijakan_privasi.dart';
+import '../../features/home/presentation/pages/profile/syarat_ketentuan.dart';
+import '../../features/home/presentation/pages/profile/tentang_jawa_timur_page.dart';
+import '../../features/home/presentation/pages/profile/tentang_majadigi.dart';
 import '../../features/service/layanan_islamic_center/islamic_center_page.dart';
 import '../../features/service/layanan_islamic_center/aula_islamic_center.dart';
 import '../../features/service/layanan_islamic_center/detail_islamic_center.dart';
@@ -73,6 +80,8 @@ import '../../features/service/layanan_transjatim/rute_transjatim.dart';
 import '../../features/service/layanan_transjatim/tiket_transjatim.dart';
 import 'package:majadigi/features/bapenda/domain/entities/info_pajak_entity.dart';
 import 'package:majadigi/features/bapenda/domain/entities/njkb_entity.dart';
+
+import '../../injection_container.dart';
 
 class Routes {
   Routes._();
@@ -165,16 +174,16 @@ class Routes {
 
   // Profile Routes
   static const dataDiri = '/data_diri';
-  static const ubahNamaLengkap = '/ubah_nama_lengkap';
-  static const ubahEmail = '/ubah_email';
-  static const ubahNik = '/ubah_nik';
-  static const ubahAlamat = '/ubah_alamat';
-  static const ubahNoHp = '/ubah_no_hp';
-  static const ubahKataSandi = '/ubah_kata_sandi';
+  static const editData = '/edit_data_diri';
+  static const gantiPassword = '/ganti_password';
+  static const tentangJatim = '/tentang_jatim';
+  static const tentangMajadigi = '/tentang_majadigi';
+  static const syaratKetentuan = '/syarat_ketentuan';
+  static const kebijakanPrivasi = '/kebijakan_privasi';
 }
 
 final appRouter = GoRouter(
-  initialLocation: Routes.mainNavigation ,
+  initialLocation: Routes.splash ,
   routes: [
     GoRoute(
       path: Routes.splash,
@@ -237,7 +246,10 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         return CustomTransitionPage(
           key: state.pageKey,
-          child: RegisterPage(),
+          child: BlocProvider(
+            create: (_) => s1<RegisterBloc>(),
+            child: const RegisterPage(),
+          ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -246,7 +258,10 @@ final appRouter = GoRouter(
           },
         );
       },
-      builder: (context, state) => const RegisterPage(),
+      builder: (context, state) => BlocProvider(
+        create: (_) => s1<RegisterBloc>(),
+        child: const RegisterPage(),
+      ),
     ),
 
     GoRoute(
@@ -1340,180 +1355,152 @@ final appRouter = GoRouter(
     ),
 
     // Profile Routes
-    // GoRoute(
-    //   path: Routes.dataDiri,
-    //   name: 'data diri',
-    //   pageBuilder: (context, state) {
-    //     return CustomTransitionPage(
-    //       key: state.pageKey,
-    //       child: DataDiriPage(),
-    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //         return FadeTransition(
-    //           opacity: animation,
-    //           child: child,
-    //         );
-    //       },
-    //     );
-    //   },
-    //   builder: (context, state) => const DataDiriPage(),
-    // ),
-    //
-    // GoRoute(
-    //   path: Routes.ubahNamaLengkap,
-    //   name: 'ubah nama lengkap',
-    //   pageBuilder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return CustomTransitionPage(
-    //       key: state.pageKey,
-    //       child: UbahDataPage(
-    //         fieldType: 'nama_lengkap',
-    //         initialValue: initialValue,
-    //       ),
-    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //         return FadeTransition(
-    //           opacity: animation,
-    //           child: child,
-    //         );
-    //       },
-    //     );
-    //   },
-    //   builder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return UbahDataPage(
-    //       fieldType: 'nama_lengkap',
-    //       initialValue: initialValue,
-    //     );
-    //   },
-    // ),
-    //
-    // GoRoute(
-    //   path: Routes.ubahEmail,
-    //   name: 'ubah email',
-    //   pageBuilder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return CustomTransitionPage(
-    //       key: state.pageKey,
-    //       child: UbahDataPage(
-    //         fieldType: 'email',
-    //         initialValue: initialValue,
-    //       ),
-    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //         return FadeTransition(
-    //           opacity: animation,
-    //           child: child,
-    //         );
-    //       },
-    //     );
-    //   },
-    //   builder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return UbahDataPage(
-    //       fieldType: 'email',
-    //       initialValue: initialValue,
-    //     );
-    //   },
-    // ),
-    //
-    // GoRoute(
-    //   path: Routes.ubahNik,
-    //   name: 'ubah nik',
-    //   pageBuilder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return CustomTransitionPage(
-    //       key: state.pageKey,
-    //       child: UbahDataPage(
-    //         fieldType: 'nik',
-    //         initialValue: initialValue,
-    //       ),
-    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //         return FadeTransition(
-    //           opacity: animation,
-    //           child: child,
-    //         );
-    //       },
-    //     );
-    //   },
-    //   builder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return UbahDataPage(
-    //       fieldType: 'nik',
-    //       initialValue: initialValue,
-    //     );
-    //   },
-    // ),
-    //
-    // GoRoute(
-    //   path: Routes.ubahAlamat,
-    //   name: 'ubah alamat',
-    //   pageBuilder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return CustomTransitionPage(
-    //       key: state.pageKey,
-    //       child: UbahDataPage(
-    //         fieldType: 'alamat',
-    //         initialValue: initialValue,
-    //       ),
-    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //         return FadeTransition(
-    //           opacity: animation,
-    //           child: child,
-    //         );
-    //       },
-    //     );
-    //   },
-    //   builder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return UbahDataPage(
-    //       fieldType: 'alamat',
-    //       initialValue: initialValue,
-    //     );
-    //   },
-    // ),
-    //
-    // GoRoute(
-    //   path: Routes.ubahNoHp,
-    //   name: 'ubah no hp',
-    //   pageBuilder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return CustomTransitionPage(
-    //       key: state.pageKey,
-    //       child: UbahDataPage(
-    //         fieldType: 'no_hp',
-    //         initialValue: initialValue,
-    //       ),
-    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //         return FadeTransition(
-    //           opacity: animation,
-    //           child: child,
-    //         );
-    //       },
-    //     );
-    //   },
-    //   builder: (context, state) {
-    //     final initialValue = state.extra as String? ?? '';
-    //     return UbahDataPage(
-    //       fieldType: 'no_hp',
-    //       initialValue: initialValue,
-    //     );
-    //   },
-    // ),
-    //
-    // GoRoute(
-    //   path: Routes.ubahKataSandi,
-    //   name: 'ubah kata sandi',
-    //   pageBuilder: (context, state) {
-    //     return CustomTransitionPage(
-    //       key: state.pageKey,
-    //       child: UbahKataSandiPage(),
-    //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //         return FadeTransition(
-    //           opacity: animation,
-    //           child: child,
-    //         );
-    //       },
-    //     );
-    //   },
-    //   builder: (context, state) => const UbahKataSandiPage(),
-    // ),
+    GoRoute(
+      path: Routes.dataDiri,
+      name: 'data diri',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: DataDiriPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const DataDiriPage(),
+    ),
+
+    GoRoute(
+      path: Routes.editData,
+      name: 'edit data diri',
+      pageBuilder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: EditDataDiriPage(
+            title: data['title'] as String,
+            fieldLabel: data['label'] as String,
+            hintText: data['hint'] as String,
+            initialValue: data['value'] as String? ?? '',
+            keyboardType:
+            data['keyboardType'] as TextInputType? ??
+                TextInputType.text,
+          ),
+          transitionsBuilder:
+              (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    ),
+
+    GoRoute(
+      path: Routes.gantiPassword,
+      name: 'ganti password',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: UbahKataSandiPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) => const UbahKataSandiPage(),
+    ),
+
+    // Tentang Jawa Timur
+    GoRoute(
+      path: Routes.tentangJatim,
+      name: 'tentang jawa timur',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: const TentangJawaTimurPage(),
+          transitionsBuilder:
+              (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) =>
+      const TentangJawaTimurPage(),
+    ),
+
+// Tentang Majadigi
+    GoRoute(
+      path: Routes.tentangMajadigi,
+      name: 'tentang majadigi',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: const TentangMajadigiPage(),
+          transitionsBuilder:
+              (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) =>
+      const TentangMajadigiPage(),
+    ),
+
+// Syarat & Ketentuan
+    GoRoute(
+      path: Routes.syaratKetentuan,
+      name: 'syarat ketentuan',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: const SyaratKetentuanPage(),
+          transitionsBuilder:
+              (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) =>
+      const SyaratKetentuanPage(),
+    ),
+
+// Kebijakan Privasi
+    GoRoute(
+      path: Routes.kebijakanPrivasi,
+      name: 'kebijakan privasi',
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: const KebijakanPrivasiPage(),
+          transitionsBuilder:
+              (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+      builder: (context, state) =>
+      const KebijakanPrivasiPage(),
+    ),
   ]
 );

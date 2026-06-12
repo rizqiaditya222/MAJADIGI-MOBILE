@@ -20,23 +20,22 @@ class _AgendaDetailPageState
     extends State<AgendaDetailPage> {
 
   final Map<String, dynamic> agendaDetail = {
-    'title': 'Bahana Bersahaja',
+    'title': 'Surabaya Great Expo 2026',
 
     'category':
     'Dinas Pariwisata, Pemuda & Olahraga',
 
-    'location': 'Kabupaten Madiun',
+    'location': 'Surabaya',
 
-    'date': 'Kamis, 01 Januari 2026',
+    'date': 'Senin, 01 Juni 2026',
 
-    'time': '00:00 - 12:00',
+    'time': '00:00 - 23:00',
 
     'description':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu amet tempor, in massa, habitasse fermentum, sed faucibus. Augue arcu, ac proin accumsan urna morbi diam nunc, tincidunt. Ac turpis amet vitae dui aliquam vitae nunc. Non enim, lorem duis maecenas odio. Augue arcu, ac proin accumsan urna morbi diam nunc, tincidunt. Ac turpis amet vitae dui aliquam vitae nunc. Non enim, lorem duis maecenas odio.\n\n'
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Arcu amet tempor, in massa, habitasse fermentum, sed faucibus. Augue arcu, ac proin accumsan urna morbi diam nunc, tincidunt. Ac turpis amet vitae dui aliquam vitae nunc. Non enim, lorem duis maecenas odio. Augue arcu, ac proin accumsan urna morbi diam nunc, tincidunt. Ac turpis amet vitae dui aliquam vitae nunc. Non enim, lorem duis maecenas odio.',
+    'ajang pameran yang menghadirkan berbagai produk unggulan dari sektor industri, UMKM, ekonomi kreatif, dan inovasi teknologi. Event ini menjadi wadah strategis bagi pelaku usaha untuk mempromosikan produk, memperluas jaringan bisnis, serta membuka peluang kerja sama dengan berbagai pihak. Selain pameran, kegiatan ini juga diramaikan dengan talkshow, seminar, dan hiburan yang bertujuan untuk meningkatkan daya saing pelaku usaha lokal menuju pasar nasional dan global. ',
 
     'logo':
-    'lib/assets/images/jatim_icon.png',
+    'lib/assets/images/jatim_expo.png',
 
     'map':
     'lib/assets/images/wisata_sample.png',
@@ -81,30 +80,14 @@ class _AgendaDetailPageState
                   /// LOGO CARD
                   Container(
                     width: double.infinity,
-                    padding:
-                    const EdgeInsets.symmetric(
-                      vertical: 12,
-                    ),
-
+                    height: 200,
                     decoration: BoxDecoration(
-                      color: const Color(
-                        0xFFF1F4F8,
-                      ),
-
-                      borderRadius:
-                      BorderRadius.circular(
-                        20,
-                      ),
-                    ),
-
-                    child: Center(
-                      child: Image.asset(
-                        agendaDetail['logo']
-                        as String,
-
-                        width: 140,
-                        height: 140,
-                        fit: BoxFit.contain,
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        image: AssetImage(
+                          agendaDetail['logo'] as String,
+                        ),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -301,37 +284,25 @@ class _AgendaDetailPageState
 
                   const SizedBox(height: 24),
 
-                  /// MAP
-                  ClipRRect(
-                    borderRadius:
-                    BorderRadius.circular(
-                      20,
-                    ),
+                  // /// MAP
+                  // ClipRRect(
+                  //   borderRadius:
+                  //   BorderRadius.circular(
+                  //     20,
+                  //   ),
+                  //
+                  //   child: Image.asset(
+                  //     agendaDetail['map']
+                  //     as String,
+                  //
+                  //     width: double.infinity,
+                  //     height: 220,
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
+                  //
+                  // const SizedBox(height: 28),
 
-                    child: Image.asset(
-                      agendaDetail['map']
-                      as String,
-
-                      width: double.infinity,
-                      height: 220,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  const SizedBox(height: 28),
-
-                  /// BUTTON
-                  PrimaryButton(
-                    label: 'Petunjuk Arah Maps',
-                    onPressed: () {},
-                    prefixIcon: const Icon(
-                      Icons.map_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-
-                  const SizedBox(height: 32),
                 ],
               ),
             ),

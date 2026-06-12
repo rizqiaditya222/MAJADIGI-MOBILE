@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/core/router/app_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
@@ -9,6 +10,8 @@ import 'package:majadigi/core/widgets/index.dart';
 import 'package:majadigi/core/widgets/service_card_widget.dart';
 
 import '../../../../core/widgets/service_dropdown.dart';
+import '../bloc/layanan_bloc.dart';
+import '../bloc/layanan_state.dart';
 
 class ListLayananPage extends StatefulWidget {
   const ListLayananPage({super.key});
@@ -69,37 +72,52 @@ class _ListLayananPage extends State<ListLayananPage> {
 
                             const SizedBox(height: 16),
 
-                            Column(
-                              children: [
-                                ServiceDropdown(
-                                  title: 'Ekonomi',
-                                  services: [
-                                    'RSUD DAHA HUSADA',
-                                    'RSUD KARSA HUSADA',
-                                  ],
-                                ),
+                            BlocBuilder<LayananBloc, LayananState>(
+                              builder: (context, state) {
 
-                                ServiceDropdown(
-                                  title: 'Kesehatan',
-                                  services: [
-                                    'RSUD DAHA HUSADA',
-                                    'RSUD KARSA HUSADA',
-                                  ],
-                                ),
+                                final groupedServices =
+                                <String, List<String>>{};
 
-                                ServiceDropdown(
-                                  title: 'Pariwisata & Kebudayaan',
-                                  services: [],
-                                ),
+                                for (final service in state.services) {
+                                  groupedServices.putIfAbsent(
+                                    service.category,
+                                        () => [],
+                                  );
 
-                                ServiceDropdown(
-                                  title: 'Sosial',
-                                  services: [
-                                    'RSUD DAHA HUSADA',
-                                    'RSUD KARSA HUSADA',
-                                  ],
-                                ),
-                              ],
+                                  groupedServices[service.category]!
+                                      .add(service.service);
+                                }
+
+                                if (groupedServices.isEmpty) {
+                                  return Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(24),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.white,
+                                      borderRadius:
+                                      BorderRadius.circular(16),
+                                    ),
+                                    child: Text(
+                                      'Belum ada layanan yang dipilih',
+                                      textAlign: TextAlign.center,
+                                      style: AppTextStyles.regular(
+                                        AppTextStyles.body2,
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                return Column(
+                                  children: groupedServices.entries
+                                      .map(
+                                        (entry) => ServiceDropdown(
+                                      title: entry.key,
+                                      services: entry.value,
+                                    ),
+                                  )
+                                      .toList(),
+                                );
+                              },
                             ),
 
                             const SizedBox(height: 24),

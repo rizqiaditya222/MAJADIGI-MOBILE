@@ -80,12 +80,13 @@ class _FormSkriningEtibiViewState extends State<_FormSkriningEtibiView> {
         "answer": isYa ? "iya" : "tidak"
       });
     }
+    final now = DateTime.now().toUtc();
 
     final formData = {
       "name": namaController.text,
       "nik": nikController.text,
       "number": phoneController.text,
-      "date_of_birth": birthController.text, // Format harus YYYY-MM-DD sesuai validasi backend
+      "date_of_birth": birthController.text,
       "address": alamatController.text,
       "city_id": state.selectedKota?.id,
       "district_id": state.selectedKecamatan?.id,
@@ -93,7 +94,13 @@ class _FormSkriningEtibiViewState extends State<_FormSkriningEtibiView> {
       "job": pekerjaanController.text,
       "weight": int.tryParse(beratController.text) ?? 0,
       "height": int.tryParse(tinggiController.text) ?? 0,
-      "date": DateTime.now().toUtc().toIso8601String(),
+      "date":
+      "${now.year.toString().padLeft(4, '0')}-"
+          "${now.month.toString().padLeft(2, '0')}-"
+          "${now.day.toString().padLeft(2, '0')}T"
+          "${now.hour.toString().padLeft(2, '0')}:"
+          "${now.minute.toString().padLeft(2, '0')}:"
+          "${now.second.toString().padLeft(2, '0')}Z",
       "answers": formattedAnswers
     };
 

@@ -48,7 +48,7 @@ class _HomePage extends State<HomePage> {
   final List<Map<String, dynamic>> gridItems = [
     {
       'label': 'Islamic Center',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'image': 'lib/assets/images/icon_islamic.png',
     },
     {
       'label': 'Harga Bahan Pokok',
@@ -56,11 +56,11 @@ class _HomePage extends State<HomePage> {
     },
     {
       'label': 'Skrining E-Tibi',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'image': 'lib/assets/images/icon_etibi.png',
     },
     {
-      'label': 'RSUD Hada Husada',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'label': 'RSUD Daha Husada',
+      'image': 'lib/assets/images/icon_daha.png',
     },
     {
       'label': '',

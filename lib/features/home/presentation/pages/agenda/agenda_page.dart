@@ -54,7 +54,7 @@ class _AgendaPageState
       'Sabtu, 03 Januari 2026 | 08:00 - 18:00',
       'location': 'Kabupaten Malang',
       'image':
-      'lib/assets/images/jatim_icon.png',
+      'lib/assets/images/jatim_expo.png',
     },
     {
       'title':

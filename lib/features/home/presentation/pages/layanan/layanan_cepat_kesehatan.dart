@@ -19,43 +19,27 @@ class _LayananCepatKesehatanPageState
   final List<Map<String, dynamic>> layananItems = [
     {
       'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Ekonomi',
-      'title': 'Harga Bahan Pokok',
+      'lib/assets/images/banner_karsa.png',
+      'subtitle': 'Kesehatan',
+      'title': 'RSUD Karsa Husada',
       'description':
-      'Informasi harian seputar harga bahan pokok',
+      'Layanan RSUD Karsa Husada Kota Batu',
     },
     {
       'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Sosial',
-      'title': 'Nomor Darurat',
+      'lib/assets/images/banner_daha.png',
+      'subtitle': 'Kesehatan',
+      'title': 'RSUD Daha Husada',
       'description':
-      'Nomor yang dapat dihubungi oleh masyarakat',
+      'Layanan RSUD Daha Husada Kota Kediri',
     },
     {
       'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Sosial',
-      'title': 'Klinik Hoaks',
+      'lib/assets/images/banner_etibi.png',
+      'subtitle': 'Kesehatan',
+      'title': 'Skrining E-Tibi',
       'description':
-      'Cegah penyebaran berita hoaks',
-    },
-    {
-      'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Ekonomi',
-      'title': 'Bapenda',
-      'description':
-      'Info & layanan pajak kendaraan bermotor',
-    },
-    {
-      'image':
-      'lib/assets/images/recommendation_wisata.png',
-      'subtitle': 'Sosial',
-      'title': 'Islamic Center',
-      'description':
-      'Pemesanan online fasilitas aula & asrama di Islamic Center Surabaya',
+      'Skrining Mandiri Tuberkolosis (TBC)',
     },
   ];
 

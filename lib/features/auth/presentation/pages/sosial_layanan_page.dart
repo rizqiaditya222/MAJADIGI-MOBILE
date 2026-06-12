@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/core/router/app_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
@@ -9,6 +10,8 @@ import 'package:majadigi/core/widgets/service_card_widget.dart';
 import 'package:majadigi/core/widgets/option_card_widget.dart';
 
 import '../../../../core/widgets/primary_button.dart';
+import '../bloc/layanan_bloc.dart';
+import '../bloc/layanan_event.dart';
 
 class SosialLayananPage extends StatefulWidget {
   const SosialLayananPage({super.key});
@@ -66,39 +69,51 @@ class _SosialLayananPage extends State<SosialLayananPage> {
                               child: Column(
                                 children: [
                                   OptionCardWidget(
-                                    imagePath: 'lib/assets/images/social_icon.png',
+                                    imagePath: 'lib/assets/images/jatim_icon.png',
                                     category: 'Sosial',
-                                    title: 'Bantuan Sosial',
-                                    description: 'Program bantuan sosial untuk keluarga kurang mampu',
-                                    onTap: () {
-                                      print('Option card tapped');
-                                    },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
+                                    title: 'Nomor Darurat',
+                                    description: 'Informasi nomor darurat Jawa Timur',
+                                    onTap: () {},
+                                    onCheckboxChanged: (selected) {
+                                      context.read<LayananBloc>().add(
+                                        ToggleServiceEvent(
+                                          category: 'Sosial',
+                                          service: 'Nomor Darurat',
+                                          selected: selected,
+                                        ),
+                                      );
                                     },
                                   ),
                                   OptionCardWidget(
-                                    imagePath: 'lib/assets/images/social_icon.png',
+                                    imagePath: 'lib/assets/images/jatim_icon.png',
                                     category: 'Sosial',
-                                    title: 'Pemberdayaan Masyarakat',
-                                    description: 'Program pemberdayaan dan pelatihan keterampilan',
-                                    onTap: () {
-                                      print('Option card tapped');
-                                    },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
+                                    title: 'Klinik Hoaks',
+                                    description: 'Cegah penyebaran berita hoaks',
+                                    onTap: () {},
+                                    onCheckboxChanged: (selected) {
+                                      context.read<LayananBloc>().add(
+                                        ToggleServiceEvent(
+                                          category: 'Sosial',
+                                          service: 'Klinik Hoaks',
+                                          selected: selected,
+                                        ),
+                                      );
                                     },
                                   ),
                                   OptionCardWidget(
-                                    imagePath: 'lib/assets/images/social_icon.png',
+                                    imagePath: 'lib/assets/images/icon_islamic.png',
                                     category: 'Sosial',
-                                    title: 'Perlindungan Anak',
-                                    description: 'Layanan perlindungan dan pemeliharaan anak',
-                                    onTap: () {
-                                      print('Option card tapped');
-                                    },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
+                                    title: 'Islamic Center',
+                                    description: 'Pemesanan online fasilitas aula & asrama',
+                                    onTap: () {},
+                                    onCheckboxChanged: (selected) {
+                                      context.read<LayananBloc>().add(
+                                        ToggleServiceEvent(
+                                          category: 'Sosial',
+                                          service: 'Islamic Center',
+                                          selected: selected,
+                                        ),
+                                      );
                                     },
                                   ),
                                 ],

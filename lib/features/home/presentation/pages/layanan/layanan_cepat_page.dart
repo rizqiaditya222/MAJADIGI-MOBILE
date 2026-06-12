@@ -19,7 +19,7 @@ class _LayananCepatPageState
   final List<Map<String, dynamic>> layananItems = [
     {
       'image':
-      'lib/assets/images/recommendation_cepat.png',
+      'lib/assets/images/banner_bahan.png',
       'subtitle': 'Ekonomi',
       'title': 'Harga Bahan Pokok',
       'description':
@@ -27,7 +27,7 @@ class _LayananCepatPageState
     },
     {
       'image':
-      'lib/assets/images/recommendation_cepat.png',
+      'lib/assets/images/banner_nomor.png',
       'subtitle': 'Sosial',
       'title': 'Nomor Darurat',
       'description':
@@ -35,7 +35,7 @@ class _LayananCepatPageState
     },
     {
       'image':
-      'lib/assets/images/recommendation_cepat.png',
+      'lib/assets/images/banner_hoaks.png',
       'subtitle': 'Sosial',
       'title': 'Klinik Hoaks',
       'description':
@@ -43,7 +43,7 @@ class _LayananCepatPageState
     },
     {
       'image':
-      'lib/assets/images/recommendation_cepat.png',
+      'lib/assets/images/banner_bapenda.png',
       'subtitle': 'Ekonomi',
       'title': 'Bapenda',
       'description':
@@ -51,7 +51,7 @@ class _LayananCepatPageState
     },
     {
       'image':
-      'lib/assets/images/recommendation_cepat.png',
+      'lib/assets/images/banner_islamic.png',
       'subtitle': 'Sosial',
       'title': 'Islamic Center',
       'description':

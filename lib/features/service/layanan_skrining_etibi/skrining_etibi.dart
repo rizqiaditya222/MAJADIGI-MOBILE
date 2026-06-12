@@ -31,7 +31,7 @@ class _SkriningEtibiPage extends State<SkriningEtibiPage>
       'title': 'Lihat Riwayat Skrining',
       'description':
       'Informasi jumlah kamar rawat inap yang tersedia',
-      'image': 'lib/assets/images/etibi_sample.png',
+      'image': 'lib/assets/images/riwayat_skrining.png',
     },
   ];
 

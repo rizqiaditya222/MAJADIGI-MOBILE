@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:majadigi/core/router/app_router.dart';
 
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/auth_header_widget.dart';
@@ -91,7 +92,7 @@ class FaskesChoicePage extends StatelessWidget {
                   PrimaryButton(
                     label: 'Selesai',
                     onPressed: () {
-                      context.pop();
+                      context.go(Routes.layananEtibi);
                     },
                   ),
                 ],

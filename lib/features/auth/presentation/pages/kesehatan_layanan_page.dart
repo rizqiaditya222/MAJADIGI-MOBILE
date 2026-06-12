@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/core/router/app_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
@@ -8,6 +9,9 @@ import 'package:majadigi/core/widgets/auth_header_widget.dart';
 import 'package:majadigi/core/widgets/service_card_widget.dart';
 import 'package:majadigi/core/widgets/option_card_widget.dart';
 import 'package:majadigi/core/widgets/index.dart';
+
+import '../bloc/layanan_bloc.dart';
+import '../bloc/layanan_event.dart';
 
 class KesehatanLayananPage extends StatefulWidget {
   const KesehatanLayananPage({super.key});
@@ -65,39 +69,51 @@ class _KesehatanLayananPage extends State<KesehatanLayananPage> {
                               child: Column(
                                 children: [
                                   OptionCardWidget(
-                                    imagePath: 'lib/assets/images/kesehatan_icon.png',
+                                    imagePath: 'lib/assets/images/icon_karsa.png',
                                     category: 'Kesehatan',
-                                    title: 'Konsultasi Medis',
-                                    description: 'Konsultasi dengan dokter profesional secara online',
-                                    onTap: () {
-                                      print('Option card tapped');
+                                    title: 'RSUD Karsa Husada',
+                                    description: 'Layanan RSUD Karsa Husada Kota Batu',
+                                    onTap: () {},
+                                    onCheckboxChanged: (selected) {
+                                      context.read<LayananBloc>().add(
+                                        ToggleServiceEvent(
+                                          category: 'Kesehatan',
+                                          service: 'RSUD Karsa Husada',
+                                          selected: selected,
+                                        ),
+                                      );
                                     },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
+                                  ),
+                                  OptionCardWidget(
+                                    imagePath: 'lib/assets/images/icon_daha.png',
+                                    category: 'Kesehatan',
+                                    title: 'RSUD Daha Husada',
+                                    description: 'Layanan RSUD Daha Husada Kota Kediri',
+                                    onTap: () {},
+                                    onCheckboxChanged: (selected) {
+                                      context.read<LayananBloc>().add(
+                                        ToggleServiceEvent(
+                                          category: 'Kesehatan',
+                                          service: 'RSUD Daha Husada',
+                                          selected: selected,
+                                        ),
+                                      );
                                     },
                                   ),
                                   OptionCardWidget(
                                     imagePath: 'lib/assets/images/kesehatan_icon.png',
                                     category: 'Kesehatan',
-                                    title: 'Fasilitas Kesehatan',
-                                    description: 'Informasi rumah sakit, klinik, dan fasilitas kesehatan',
-                                    onTap: () {
-                                      print('Option card tapped');
-                                    },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
-                                    },
-                                  ),
-                                  OptionCardWidget(
-                                    imagePath: 'lib/assets/images/kesehatan_icon.png',
-                                    category: 'Kesehatan',
-                                    title: 'Edukasi Kesehatan',
-                                    description: 'Tips dan informasi untuk gaya hidup sehat',
-                                    onTap: () {
-                                      print('Option card tapped');
-                                    },
-                                    onCheckboxChanged: (isSelected) {
-                                      print('Checkbox selected: $isSelected');
+                                    title: 'Skrining Mandiri TBC',
+                                    description: 'Aplikasi skrining mandiri Tuberkulosis (TBC)',
+                                    onTap: () {},
+                                    onCheckboxChanged: (selected) {
+                                      context.read<LayananBloc>().add(
+                                        ToggleServiceEvent(
+                                          category: 'Kesehatan',
+                                          service: 'Skrining Mandiri TBC',
+                                          selected: selected,
+                                        ),
+                                      );
                                     },
                                   ),
                                 ],

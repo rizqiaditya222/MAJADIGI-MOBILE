@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:majadigi/core/router/app_router.dart';
 import 'package:majadigi/core/theme/app_colors.dart';
@@ -8,6 +9,9 @@ import 'package:majadigi/core/widgets/auth_header_widget.dart';
 import 'package:majadigi/core/widgets/index.dart';
 import 'package:majadigi/core/widgets/service_card_widget.dart';
 import 'package:majadigi/core/widgets/option_card_widget.dart';
+
+import '../bloc/layanan_bloc.dart';
+import '../bloc/layanan_event.dart';
 
 class EkonomiLayananPage extends StatefulWidget {
   const EkonomiLayananPage({super.key});
@@ -67,39 +71,35 @@ class _EkonomiLayananPage extends State<EkonomiLayananPage> {
                                 child: Column(
                                   children: [
                                     OptionCardWidget(
-                                      imagePath: 'lib/assets/images/ekonomi_icon.png',
+                                      imagePath: 'lib/assets/images/jatim_icon.png',
                                       category: 'Ekonomi',
                                       title: 'Harga Bahan Pokok',
                                       description: 'Informasi harian seputar harga bahan pokok',
-                                      onTap: () {
-                                        print('Option card tapped');
-                                      },
-                                      onCheckboxChanged: (isSelected) {
-                                        print('Checkbox selected: $isSelected');
+                                      onTap: () {},
+                                      onCheckboxChanged: (selected) {
+                                        context.read<LayananBloc>().add(
+                                          ToggleServiceEvent(
+                                            category: 'Ekonomi',
+                                            service: 'Harga Bahan Pokok',
+                                            selected: selected,
+                                          ),
+                                        );
                                       },
                                     ),
                                     OptionCardWidget(
-                                      imagePath: 'lib/assets/images/ekonomi_icon.png',
+                                      imagePath: 'lib/assets/images/icon_bapenda.png',
                                       category: 'Ekonomi',
-                                      title: 'Harga Bahan Pokok',
-                                      description: 'Informasi harian seputar harga bahan pokok',
-                                      onTap: () {
-                                        print('Option card tapped');
-                                      },
-                                      onCheckboxChanged: (isSelected) {
-                                        print('Checkbox selected: $isSelected');
-                                      },
-                                    ),
-                                    OptionCardWidget(
-                                      imagePath: 'lib/assets/images/ekonomi_icon.png',
-                                      category: 'Ekonomi',
-                                      title: 'Harga Bahan Pokok',
-                                      description: 'Informasi harian seputar harga bahan pokok',
-                                      onTap: () {
-                                        print('Option card tapped');
-                                      },
-                                      onCheckboxChanged: (isSelected) {
-                                        print('Checkbox selected: $isSelected');
+                                      title: 'Bapenda',
+                                      description: 'Info & layanan pajak kendaraan bermotor',
+                                      onTap: () {},
+                                      onCheckboxChanged: (selected) {
+                                        context.read<LayananBloc>().add(
+                                          ToggleServiceEvent(
+                                            category: 'Ekonomi',
+                                            service: 'Bapenda',
+                                            selected: selected,
+                                          ),
+                                        );
                                       },
                                     ),
                                   ],

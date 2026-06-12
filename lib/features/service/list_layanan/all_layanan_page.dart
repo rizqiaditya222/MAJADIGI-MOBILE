@@ -15,6 +15,19 @@ class AllLayananPage extends StatefulWidget {
 class _AllLayananPageState extends State<AllLayananPage> {
   int _selectedCategoryIndex = 0;
 
+  List<Map<String, dynamic>> get filteredLayanan {
+    final selectedCategory =
+    categories[_selectedCategoryIndex]['label'] as String;
+
+    if (selectedCategory == 'UNTUK ANDA') {
+      return layananList;
+    }
+
+    return layananList.where((layanan) {
+      return layanan['category'] == selectedCategory;
+    }).toList();
+  }
+
   final TextEditingController _searchController = TextEditingController();
 
   final List<Map<String, dynamic>> categories = [
@@ -33,49 +46,49 @@ class _AllLayananPageState extends State<AllLayananPage> {
       'category': 'KESEHATAN',
       'title': 'Skrining ETIBI',
       'description': 'Skrining risiko TBC secara mandiri.',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'image': 'lib/assets/images/icon_etibi.png',
       'route': Routes.layananEtibi,
     },
     {
       'category': 'KESEHATAN',
       'title': 'Dasa Husada',
       'description': 'Layanan kesehatan masyarakat.',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'image': 'lib/assets/images/icon_daha.png',
       'route': Routes.layananDasaHusada,
     },
     {
     'category': 'KESEHATAN',
     'title': 'Karsa Husada',
     'description': 'Layanan kesehatan masyarakat.',
-    'image': 'lib/assets/images/jatim_icon.png',
+    'image': 'lib/assets/images/icon_karsa.png',
     'route': Routes.layananKarsaHusada,
     },
     {
       'category': 'PARIWISATA',
       'title': 'Destinasi Wisata',
       'description': 'Temukan destinasi wisata terbaik.',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'image': 'lib/assets/images/icon_destinasi.png',
       'route': Routes.layananDestinasiWisata,
     },
     {
       'category': 'TRANSPORTASI',
       'title': 'Trans Jatim',
       'description': 'Informasi rute dan tiket Trans Jatim.',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'image': 'lib/assets/images/icon_transjatim.png',
       'route': Routes.layananTransjatim,
     },
     {
       'category': 'SOSIAL',
       'title': 'Islamic Center',
       'description': 'Pemesanan aula dan fasilitas Islamic Center.',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'image': 'lib/assets/images/icon_islamic.png',
       'route': Routes.layananIslamicCenter,
     },
     {
       'category': 'EKONOMI',
       'title': 'Bapenda',
       'description': 'Informasi pajak dan NJKP.',
-      'image': 'lib/assets/images/jatim_icon.png',
+      'image': 'lib/assets/images/icon_bapenda.png',
       'route': Routes.layananBapenda,
     },
     {
@@ -457,8 +470,8 @@ class _AllLayananPageState extends State<AllLayananPage> {
 
                   /// LIST LAYANAN
                   Column(
-                    children: List.generate(layananList.length, (index) {
-                      final layanan = layananList[index];
+                    children: List.generate(filteredLayanan.length, (index) {
+                      final layanan = filteredLayanan[index];
 
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 16),

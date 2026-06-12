@@ -21,6 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPage extends State<LoginPage> {
   bool _obscurePassword = true;
 
+  // Controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -48,6 +49,8 @@ class _LoginPage extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => di.s1<LoginBloc>(),
+
+      // Step 13: BlocListener untuk handle success & failure
       child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (!mounted) return;
@@ -56,7 +59,7 @@ class _LoginPage extends State<LoginPage> {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (!mounted) return;
               _showSnackBar(context, 'Login berhasil', success: true);
-              context.go(Routes.entranceLayanan);
+              context.go(Routes.mainNavigation);
             });
           } else if (state is LoginFailure) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -79,19 +82,18 @@ class _LoginPage extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(24),
                             bottomRight: Radius.circular(24),
                           ),
-                          child: Container(
+                          child: SizedBox(
                             width: double.infinity,
                             height: 328,
                             child: Stack(
                               children: [
-
                                 Positioned.fill(
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
                                           Color(0xFF0090FF),
@@ -107,48 +109,50 @@ class _LoginPage extends State<LoginPage> {
                                     ),
                                   ),
                                 ),
-
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 24, right: 24, bottom: 48),
+                                    padding: const EdgeInsets.only(
+                                        left: 24, right: 24, bottom: 48),
                                     child: ConstrainedBox(
-                                      constraints: BoxConstraints(maxWidth: 264),
+                                      constraints:
+                                      const BoxConstraints(maxWidth: 264),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(
                                             'Selamat Datang Kembali Di Majadigi!',
                                             textAlign: TextAlign.center,
-                                            style: AppTextStyles.bold(AppTextStyles.h2)
-                                                .copyWith(color: AppColors.white),
+                                            style: AppTextStyles.bold(
+                                                AppTextStyles.h2)
+                                                .copyWith(
+                                                color: AppColors.white),
                                           ),
-                                          SizedBox(height: 24),
+                                          const SizedBox(height: 24),
                                           Text(
                                             'Platform layanan publik Jawa Timur. Cerdas, Praktis, & Terintegrasi.',
                                             textAlign: TextAlign.center,
-                                            style: AppTextStyles.medium(AppTextStyles.body1)
-                                                .copyWith(color: AppColors.white),
+                                            style: AppTextStyles.medium(
+                                                AppTextStyles.body1)
+                                                .copyWith(
+                                                color: AppColors.white),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
                                 ),
-
                                 Positioned(
                                   top: 0,
                                   left: 12,
                                   child: SafeArea(
                                     child: IconButton(
-                                      icon: Icon(Icons.arrow_back, color: Colors.white),
-                                      onPressed: () {
-                                        context.pop();
-                                      },
+                                      icon: const Icon(Icons.arrow_back,
+                                          color: Colors.white),
+                                      onPressed: () => context.pop(),
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),
@@ -156,7 +160,7 @@ class _LoginPage extends State<LoginPage> {
 
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.only(left: 24, right: 24),
+                            padding: const EdgeInsets.only(left: 24, right: 24),
                             child: Form(
                               key: _formKey,
                               child: Column(
@@ -166,103 +170,103 @@ class _LoginPage extends State<LoginPage> {
                                   // Email field
                                   TextField(
                                     controller: _emailController,
-                                    style: AppTextStyles.medium(AppTextStyles.body1)
+                                    style: AppTextStyles.medium(
+                                        AppTextStyles.body1)
                                         .copyWith(color: AppColors.dark300),
                                     decoration: InputDecoration(
                                       hintText: 'E-mail',
-                                      hintStyle: AppTextStyles.medium(AppTextStyles.body1)
+                                      hintStyle: AppTextStyles.medium(
+                                          AppTextStyles.body1)
                                           .copyWith(color: AppColors.dark300),
-
-                                      contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 16,
-                                      ),
-
+                                      contentPadding:
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 16),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius:
+                                        BorderRadius.circular(16),
                                         borderSide: BorderSide(
-                                          color: AppColors.dark200,
-                                        ),
+                                            color: AppColors.dark200),
                                       ),
-
                                       focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius:
+                                        BorderRadius.circular(16),
                                         borderSide: BorderSide(
-                                          color: AppColors.blue300,
-                                          width: 1.5,
-                                        ),
+                                            color: AppColors.blue300,
+                                            width: 1.5),
                                       ),
                                     ),
                                   ),
 
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
 
                                   // Password field
                                   TextField(
                                     controller: _passwordController,
                                     obscureText: _obscurePassword,
-                                    style: AppTextStyles.medium(AppTextStyles.body1)
+                                    style: AppTextStyles.medium(
+                                        AppTextStyles.body1)
                                         .copyWith(color: AppColors.dark300),
                                     decoration: InputDecoration(
                                       hintText: 'Kata Sandi',
-                                      hintStyle: AppTextStyles.medium(AppTextStyles.body1)
+                                      hintStyle: AppTextStyles.medium(
+                                          AppTextStyles.body1)
                                           .copyWith(color: AppColors.dark300),
-
-                                      contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 16,
-                                      ),
-
+                                      contentPadding:
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 16),
                                       suffixIcon: IconButton(
                                         icon: Icon(
-                                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                          _obscurePassword
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
                                           color: AppColors.dark300,
                                         ),
                                         onPressed: () {
                                           setState(() {
-                                            _obscurePassword = !_obscurePassword;
+                                            _obscurePassword =
+                                            !_obscurePassword;
                                           });
                                         },
                                       ),
-
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius:
+                                        BorderRadius.circular(16),
                                         borderSide: BorderSide(
-                                          color: AppColors.dark200,
-                                        ),
+                                            color: AppColors.dark200),
                                       ),
-
                                       focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius:
+                                        BorderRadius.circular(16),
                                         borderSide: BorderSide(
-                                          color: AppColors.blue300,
-                                          width: 1.5,
-                                        ),
+                                            color: AppColors.blue300,
+                                            width: 1.5),
                                       ),
                                     ),
                                   ),
 
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
 
                                   GestureDetector(
-                                    onTap: () {
-                                      context.push(Routes.resetPassword);
-                                    },
+                                    onTap: () =>
+                                        context.push(Routes.resetPassword),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Lupa Kata Sandi?',
-                                          textAlign: TextAlign.start,
-                                          style: AppTextStyles.regular(AppTextStyles.body2)
-                                              .copyWith(color: AppColors.dark300),
+                                          style: AppTextStyles.regular(
+                                              AppTextStyles.body2)
+                                              .copyWith(
+                                              color: AppColors.dark300),
                                         ),
                                       ],
                                     ),
                                   ),
 
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
 
+                                  // Step 13: BlocBuilder untuk loading state
                                   BlocBuilder<LoginBloc, LoginState>(
                                     builder: (context, state) {
                                       final isLoading = state is LoginLoading;
@@ -272,54 +276,61 @@ class _LoginPage extends State<LoginPage> {
                                         onPressed: () {
                                           if (isLoading) return;
 
-                                          final email = _emailController.text.trim();
-                                          final password = _passwordController.text.trim();
+                                          final email =
+                                          _emailController.text.trim();
+                                          final password =
+                                          _passwordController.text.trim();
 
-                                          if (email.isEmpty || password.isEmpty) {
-                                            _showSnackBar(context, 'Email dan password harus diisi', success: false);
+                                          if (email.isEmpty ||
+                                              password.isEmpty) {
+                                            _showSnackBar(
+                                              context,
+                                              'Email dan password harus diisi',
+                                              success: false,
+                                            );
                                             return;
                                           }
 
+                                          // Submit ke LoginBloc
                                           context.read<LoginBloc>().add(
-                                                LoginSubmitted(
-                                                  email: email,
-                                                  password: password,
-                                                ),
-                                              );
+                                            LoginSubmitted(
+                                              email: email,
+                                              password: password,
+                                            ),
+                                          );
                                         },
                                       );
                                     },
                                   ),
 
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
 
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         'Belum memiliki akun?',
-                                        textAlign: TextAlign.center,
-                                        style: AppTextStyles.regular(AppTextStyles.body2)
-                                            .copyWith(color: AppColors.dark300),
+                                        style: AppTextStyles.regular(
+                                            AppTextStyles.body2)
+                                            .copyWith(
+                                            color: AppColors.dark300),
                                       ),
-
-                                      SizedBox(width: 4),
-
+                                      const SizedBox(width: 4),
                                       GestureDetector(
-                                        onTap: () {
-                                          context.push(Routes.register);
-                                        },
+                                        onTap: () =>
+                                            context.push(Routes.register),
                                         child: Text(
                                           'Daftar Sekarang',
-                                          textAlign: TextAlign.center,
-                                          style: AppTextStyles.bold(AppTextStyles.body2)
-                                              .copyWith(color: AppColors.dark300),
+                                          style: AppTextStyles.bold(
+                                              AppTextStyles.body2)
+                                              .copyWith(
+                                              color: AppColors.dark300),
                                         ),
                                       ),
                                     ],
                                   ),
 
-                                  SizedBox(height: 32),
+                                  const SizedBox(height: 32),
 
                                   Container(
                                     height: 1,
@@ -327,7 +338,7 @@ class _LoginPage extends State<LoginPage> {
                                     color: AppColors.dark100,
                                   ),
 
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
 
                                   SizedBox(
                                     width: double.infinity,
@@ -335,35 +346,40 @@ class _LoginPage extends State<LoginPage> {
                                       style: FilledButton.styleFrom(
                                         backgroundColor: AppColors.white,
                                         side: BorderSide(
-                                          color: AppColors.dark200,
-                                          width: 1,
-                                        ),
+                                            color: AppColors.dark200, width: 1),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius:
+                                          BorderRadius.circular(12),
                                         ),
-                                        padding: EdgeInsets.symmetric(vertical: 16),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 16),
                                       ).copyWith(
-                                        overlayColor: MaterialStateProperty.all(Colors.transparent),
+                                        overlayColor:
+                                        MaterialStateProperty.all(
+                                            Colors.transparent),
                                       ),
                                       onPressed: () {},
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
                                         children: [
                                           Image.asset(
                                             'lib/assets/images/google_icon.png',
                                             width: 20,
                                             height: 20,
                                           ),
-                                          SizedBox(width: 8),
+                                          const SizedBox(width: 8),
                                           Text(
                                             'Masuk dengan Google',
-                                            style: AppTextStyles.semiBold(AppTextStyles.body1)
-                                                .copyWith(color: AppColors.dark300),
-                                          )
+                                            style: AppTextStyles.semiBold(
+                                                AppTextStyles.body1)
+                                                .copyWith(
+                                                color: AppColors.dark300),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -381,5 +397,4 @@ class _LoginPage extends State<LoginPage> {
       ),
     );
   }
-
 }
